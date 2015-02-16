@@ -37,7 +37,7 @@ public class Main {
 		TileGrid grid = new TileGrid(map);
 		
 		Enemy enemy = new Enemy(Artist.loadTexture("images/enemy.png", "PNG"),grid.getTile(10, 10), 64, 64, 100, 7, grid);
-		Player player = new Player(Artist.loadTexture("images/enemy.png", "PNG"),grid.getTile(0, 0), 64, 64, 100, 7, grid);
+		Player player = new Player(Artist.loadTexture("images/character_front.png", "PNG"),grid.getTile(0, 0), 64, 64, 100, 7, grid);
 		
 		
 		while (!Display.isCloseRequested()) {

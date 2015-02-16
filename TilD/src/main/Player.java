@@ -45,10 +45,10 @@ public class Player {
 				}
 
 			}
-			if (Keyboard.getEventKey() == Keyboard.KEY_D) {
+			else if (Keyboard.getEventKey() == Keyboard.KEY_D) {
 				System.out.println("Right");
 
-				if ((int) (x / 64) + 1 <= 0) {
+				if ((int) (x / 64) + 1 >= 20) {
 					return;
 				}
 				nextTile = grid.getTile((int) (x / 64) + 1, (int) (y / 64));
@@ -57,11 +57,11 @@ public class Player {
 				}
 
 			}
-			if (Keyboard.getEventKeyState()
+			else if (Keyboard.getEventKeyState()
 					&& Keyboard.getEventKey() == Keyboard.KEY_S) {
 				System.out.println("Down");
 
-				if ((int) (y / 64) + 1 <= 15) {
+				if ((int) (y / 64) + 1 >= 15) {
 					return;
 				}
 				nextTile = grid.getTile((int) (x / 64), (int) (y / 64) + 1);
@@ -70,7 +70,7 @@ public class Player {
 				}
 
 			}
-			if (Keyboard.getEventKeyState()
+			else if (Keyboard.getEventKeyState()
 					&& Keyboard.getEventKey() == Keyboard.KEY_W) {
 				System.out.println("Up");
 
@@ -83,7 +83,7 @@ public class Player {
 				}
 
 			}
-			if (Keyboard.getEventKeyState()
+			else if (Keyboard.getEventKeyState()
 					&& Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
 				System.exit(1);
 
