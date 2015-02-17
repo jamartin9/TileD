@@ -6,7 +6,7 @@ import org.newdawn.slick.opengl.Texture;
 import utils.Artist;
 import utils.Clock;
 
-public class Player {
+public class Player{
 
 	private TileGrid grid;
 	private Texture texture;
@@ -15,7 +15,10 @@ public class Player {
 	private int width;
 	private int height;
 	private int speed;
+	
 
+
+	
 	public Player(Texture texture, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
 		this.texture = texture;
@@ -28,65 +31,68 @@ public class Player {
 	}
 
 	
-	/*TODO: Change movement Logic*/
+	/*TODO: Change movement Logic later*/
 	public void update() {
-		Tile nextTile;
 
 		while (Keyboard.next()) {
-			if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+			Tile nextTile;
+			int key = Keyboard.getEventKey();
+			switch(key){
+			case Keyboard.KEY_A:
 				System.out.println("Left");
 
-				if ((int) (x / 64) - 1 <= 0) {
-					return;
+				if (x - 1 <= 0) {
+					System.out.println("Out of Bounds");
+					break;
 				}
-				nextTile = grid.getTile((int) (x / 64) - 1, (int) (y / 64));
+				nextTile = grid.getTile((int) ((x+10) / 64), (int) ((y+64) / 64));
 				if (nextTile.getType().moveable) {
 					x -= Clock.delta() * speed;
 				}
-
-			}
-			else if (Keyboard.getEventKey() == Keyboard.KEY_D) {
+				break;
+			
+			case Keyboard.KEY_D:
 				System.out.println("Right");
 
-				if ((int) (x / 64) + 1 >= 20) {
-					return;
+				if (x + 65 > Artist.getWidth()) {
+					System.out.println("Out of Bounds");
+					break;
 				}
-				nextTile = grid.getTile((int) (x / 64) + 1, (int) (y / 64));
+				nextTile = grid.getTile((int) ((x+64) / 64), (int) ((y+64) / 64));
 				if (nextTile.getType().moveable) {
 					x += Clock.delta() * speed;
-				}
 
-			}
-			else if (Keyboard.getEventKeyState()
-					&& Keyboard.getEventKey() == Keyboard.KEY_S) {
-				System.out.println("Down");
-
-				if ((int) (y / 64) + 1 >= 15) {
-					return;
 				}
-				nextTile = grid.getTile((int) (x / 64), (int) (y / 64) + 1);
-				if (nextTile.getType().moveable) {
-					y += Clock.delta() * speed;
-				}
-
-			}
-			else if (Keyboard.getEventKeyState()
-					&& Keyboard.getEventKey() == Keyboard.KEY_W) {
+				break;
+			
+			case Keyboard.KEY_W:
 				System.out.println("Up");
 
-				if ((int) (y / 64) - 1 <= 0) {
-					return;
+				if (y - 1 < 0) {
+					System.out.println("Out of Bounds");
+					break;
 				}
-				nextTile = grid.getTile((int) (x / 64), (int) (y / 64) - 1);
+				nextTile = grid.getTile((int) ((x+32) / 64), (int) ((y+1) / 64));
 				if (nextTile.getType().moveable) {
 					y -= Clock.delta() * speed;
 				}
+				break;
+				
+			case Keyboard.KEY_S:
+				System.out.println("Down");
 
-			}
-			else if (Keyboard.getEventKeyState()
-					&& Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
-				System.exit(1);
-
+				if (y + 70 > Artist.getHeight()) {
+					System.out.println("Out of Bounds");
+					break;
+				}
+				nextTile = grid.getTile((int) ((x+32) / 64), (int) (((y-1)/ 64) + 1));
+				if (nextTile.getType().moveable) {
+					y += Clock.delta() * speed;
+				}
+				break;
+			case Keyboard.KEY_ESCAPE:
+				System.exit(0);
+				break;
 			}
 		}
 	}
@@ -94,4 +100,6 @@ public class Player {
 	public void Draw() {
 		Artist.drawQuadTex(texture, x, y, width, height);
 	}
+
+
 }

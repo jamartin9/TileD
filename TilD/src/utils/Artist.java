@@ -2,12 +2,16 @@ package utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.util.vector.Vector4f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -18,11 +22,6 @@ public class Artist {
 	private static final int HEIGHT = 960;
 	private static final int WIDTH = 1280;
 
-
-	public Artist() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void BeginSession() {
 		Display.setTitle("TilD");
 		try {
@@ -30,6 +29,7 @@ public class Artist {
 			Display.create();
 			// Make keyboard
 			Keyboard.create();
+			Keyboard.enableRepeatEvents(true);
 
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
@@ -43,6 +43,15 @@ public class Artist {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		// enable textures
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		// fix lines between textures
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		// change filtering
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+
+		// enable blending
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		// enable double buffer
@@ -105,6 +114,43 @@ public class Artist {
 		
 		return tex;
 		
+	}
+	
+	public static void initLight(Vector4f pos, Vector4f spec,Vector4f amb,Vector4f diff) {
+		FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+		lightPosition.put(pos.x).put(pos.y).put(pos.z).put(pos.w).flip();
+
+		FloatBuffer specular = BufferUtils.createFloatBuffer(4);
+		specular.put(spec.x).put(spec.y).put(spec.z).put(spec.w).flip();
+
+		FloatBuffer ambient = BufferUtils.createFloatBuffer(4);
+		ambient.put(amb.x).put(amb.y).put(amb.z).put(amb.w).flip();
+
+		FloatBuffer diffuse = BufferUtils.createFloatBuffer(4);
+		diffuse.put(diff.x).put(diff.y).put(diff.z).put(diff.w).flip();
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, specular);
+		GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 20.0f);
+
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_POSITION, lightPosition);
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, specular);
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, diffuse);
+		GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, ambient);
+
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_LIGHT1);
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glColorMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT_AND_DIFFUSE);
+	}
+	
+	public static int getHeight(){
+		return HEIGHT;
+	}
+	
+	
+	public static int getWidth(){
+		return WIDTH;
 	}
 
 	/* Stubs */

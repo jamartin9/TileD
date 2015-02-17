@@ -217,10 +217,10 @@ public class SoundManager {
 		return AL10.alGetSourcei(src, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING;
 	}
 
-	public void enableLoop(int sourceDescriptor) {
+	public void enableLoop() {
 		int lastError = 0;
 		// lets loop the sound
-		AL10.alSourcei(sourceDescriptor, AL10.AL_LOOPING, AL10.AL_TRUE);
+		AL10.alSourcei(source, AL10.AL_LOOPING, AL10.AL_TRUE);
 		if ((lastError = AL10.alGetError()) != AL10.AL_NO_ERROR) {
 			exit(lastError);
 		}

@@ -56,11 +56,11 @@ public class Enemy {
 
 		switch (dir) {
 		case 0:
-			if ((int) (x / 64) - 1 <= 0) {
+			if (x - 1 <= 0) {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) (x / 64) - 1, (int) (y / 64));
+			nextTile = grid.getTile((int) ((x+10) / 64), (int) ((y+64) / 64));
 			if (nextTile.getType().moveable) {
 
 				// get the movable of the tile and make sure it isnt out of
@@ -72,11 +72,11 @@ public class Enemy {
 			}
 			break;
 		case 1:
-			if ((int) (y / 64) - 1 <= 0) {
+			if (y - 1 < 0) {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) (x / 64), (int) (y / 64) - 1);
+			nextTile = grid.getTile((int) ((x+32) / 64), (int) ((y+1) / 64));
 			if (nextTile.getType().moveable) {
 
 				// get the movable of the tile and make sure it isnt out of
@@ -88,11 +88,11 @@ public class Enemy {
 			}
 			break;
 		case 2:
-			if ((int) (x / 64) + 1 >= 20) {
+			if (x + 65 > Artist.getWidth()) {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) (x / 64) + 1, (int) (y / 64));
+			nextTile = grid.getTile((int)(x+64) / 64, (int)(y+64) / 64);
 			if (nextTile.getType().moveable) {
 
 				// get the movable of the tile and make sure it isnt out of
@@ -104,11 +104,11 @@ public class Enemy {
 			}
 			break;
 		case 3:
-			if ((int) (y / 64) + 1 >= 15) {
+			if (y + 70 > Artist.getHeight()) {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) (x / 64), (int) (y / 64) + 1);
+			nextTile = grid.getTile((int) ((x+32) / 64), (int) (((y-1)/ 64) + 1));
 			if (nextTile.getType().moveable) {
 				// get the movable of the tile and make sure it isnt out of
 				// bounds
