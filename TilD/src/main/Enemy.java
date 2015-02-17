@@ -92,7 +92,7 @@ public class Enemy {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int)(x+64) / 64, (int)(y+64) / 64);
+			nextTile = grid.getTile((int)(x+60) / 64, (int)(y+60) / 64);
 			if (nextTile.getType().moveable) {
 
 				// get the movable of the tile and make sure it isnt out of
