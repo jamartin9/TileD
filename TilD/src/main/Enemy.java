@@ -1,37 +1,20 @@
 package main;
 
-import org.newdawn.slick.opengl.Texture;
-
-import utils.Artist;
 import utils.Clock;
 
-public class Enemy {
+public class Enemy extends GameObject {
 
-	private int width, height, health;
-	private float speed, x, y;
-	Texture texture;
-	Tile startTile;
-	TileGrid grid;
 	// direction to start moving
-	int dir;
-	private boolean firstRun = true;
+	private int dir;
+	private boolean firstRun;
 
-	public Enemy(Texture texture, Tile startTile, int width, int height,
+	public Enemy(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
-		this.texture = texture;
-		this.x = startTile.getX();
-		this.y = startTile.getY();
-		this.width = width;
-		this.height = height;
-		this.speed = speed;
-		this.grid = grid;
+		super(anim, startTile, width, height, health, speed, grid);
+		firstRun = true;
 	}
 
-	public void Draw() {
-		Artist.drawQuadTex(texture, x, y, width, height);
-	}
-
-	public void Update() {
+	public void update() {
 		if (firstRun) {
 			firstRun = false;
 			dir = Clock.getRandom(3);
@@ -43,10 +26,8 @@ public class Enemy {
 	}
 
 	// AI
-	/*TODO: Change movement Logic*/
+	/* TODO: Change movement Logic */
 	private void wander(int dir) {
-
-		Tile nextTile;
 		// choose random tile to move to
 		//
 		// 1
@@ -56,70 +37,43 @@ public class Enemy {
 
 		switch (dir) {
 		case 0:
-			if (x - 1 <= 0) {
+			if (moveLeft()) {
+				break;
+			} else {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) ((x+10) / 64), (int) ((y+60) / 64));
-			if (nextTile.getType().moveable) {
-
-				// get the movable of the tile and make sure it isnt out of
-				// bounds
-
-				x -= Clock.delta() * speed;
-			} else {
-				this.dir = Clock.getRandom(3);
-			}
-			break;
 		case 1:
-			if (y - 1 < 0) {
+
+			if (moveUp()) {
+				break;
+			} else {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) ((x+32) / 64), (int) ((y+1) / 64));
-			if (nextTile.getType().moveable) {
-
-				// get the movable of the tile and make sure it isnt out of
-				// bounds
-				// move up
-				y -= Clock.delta() * speed;
-			} else {
-				this.dir = Clock.getRandom(3);
-			}
-			break;
 		case 2:
-			if (x + 65 > Artist.getWidth()) {
+			if (moveRight()) {
+				break;
+			} else {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int)(x+60) / 64, (int)(y+60) / 64);
-			if (nextTile.getType().moveable) {
-
-				// get the movable of the tile and make sure it isnt out of
-				// bounds
-				// move right
-				x += Clock.delta() * speed;
-			} else {
-				this.dir = Clock.getRandom(3);
-			}
-			break;
 		case 3:
-			if (y + 70 > Artist.getHeight()) {
+			if (moveDown()) {
+				break;
+			} else {
 				this.dir = Clock.getRandom(3);
 				break;
 			}
-			nextTile = grid.getTile((int) ((x+32) / 64), (int) (((y-1)/ 64) + 1));
-			if (nextTile.getType().moveable) {
-				// get the movable of the tile and make sure it isnt out of
-				// bounds
-				// move down
-				y += Clock.delta() * speed;
-			} else {
-				this.dir = Clock.getRandom(3);
-			}
-			break;
 		}
 
 	}
-	
+
+	@Override
+	public void startAnim() {
+		anim.setRange(0, 0);
+		animThread = new Thread(anim);
+		animThread.start();
+	}
+
 }

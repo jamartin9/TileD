@@ -1,6 +1,10 @@
 package main;
 
+import java.util.ArrayList;
+
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
 import utils.Clock;
@@ -8,15 +12,71 @@ import utils.SoundManager;
 
 public class Main {
 
-	SoundManager sm;
+	private static TileGrid grid;
+	private SoundManager sm;
+	private static Player playerOne;
+	private static Enemy enemyOne;
+	
 	public Main() {
 		// setup
 		Artist.BeginSession();
 		setupSound();
+		createInitMap();
+		enemyOne = createEnemyNix();
+		playerOne = createPlayer();
 		
-		// 0= grass, 1= dirt, 2= water. Maps can be made this way on the 20x15 grid
+		// start thread polling for animation
+		playerOne.startAnim();
+		enemyOne.startAnim();
+		
+		while (!Display.isCloseRequested()) {
+			
+			// update the clock
+			Clock.update();
+			
+			playerOne.update();
+			
+			// update enemy position
+			enemyOne.update();
+			
+			// redraw map
+			grid.draw();
+			
+			// redraw enemy
+			enemyOne.Draw();
+			
+			// redraw player
+			playerOne.Draw();
+			
+			// update the display
+			Display.update();
+			
+			// sync at 60 fps
+			Display.sync(60);
+		}
+		// end game
+		//playerThread.stop();
+		Display.destroy();
+		Keyboard.destroy();
+		sm.stopSound();
+		sm.dispose();
+		System.exit(0);
+
+	}
+	
+	public static void changeMap(){
+		TileGrid grd = new TileGrid();
+		grid = grd;
+		playerOne.setGrid(grd);
+		enemyOne.setGrid(grd);
+		
+	}
+	
+	private void createInitMap(){
+		
+		// 0= grass, 1= dirt, 2= water, 3= town. Maps can be made this way on the 20x15 grid
 		int map[][]={
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+			{1,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,2,2,2,2},
 			{2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
 			{2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
 			{2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
@@ -34,32 +94,56 @@ public class Main {
 
 		};
 		
-		TileGrid grid = new TileGrid(map);
-		
-		Enemy enemy = new Enemy(Artist.loadTexture("images/enemy.png", "PNG"),grid.getTile(10, 10), 64, 64, 100, 7, grid);
-		Player player = new Player(Artist.loadTexture("images/character_front.png", "PNG"),grid.getTile(0, 0), 64, 64, 100, 25, grid);
-
-		
-		while (!Display.isCloseRequested()) {
-			Clock.update();
-			player.update();
-			enemy.Update();
-			
-			grid.draw();
-			enemy.Draw();
-			player.Draw();
-			
-			Display.update();
-			Display.sync(60);
-		}
-		// end game
-		Display.destroy();
-
+		grid = new TileGrid(map);
 	}
 
+	private Enemy createEnemyNix(){
+		/*Create animation for enemy*/
+		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
+		float[] enemyTime = new float[1];		
+		// moving
+		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
+		// set time
+		enemyTime[0]=0;
+		Animation enemyAnim = new Animation(enemyTexs,enemyTime);
+		
+		return new Enemy(enemyAnim, grid.getTile(10, 10), 64, 64, 100, 7, grid);
+	}
+	
+ 	private Player createPlayer(){
+		/*Create animation for player*/
+		ArrayList<Texture> playerTexs = new ArrayList<Texture>();
+		float[] time = new float[7];
+		
+		// moving down/up
+		playerTexs.add(Artist.loadTexture("images/character_front.png", "PNG"));
+		// set time
+		time[0]=0;
+		// moving right
+		playerTexs.add(Artist.loadTexture("images/char_right_stand.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/char_right_step_right.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_left_step_right.png", "PNG"));
+		time[1]=0.05f;
+		time[2]=0.05f;
+		time[3]=0.05f;		
+		// moving left
+		playerTexs.add(Artist.loadTexture("images/char_left_stand.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/char_right_step_left.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_left_step_left.png", "PNG"));
+		time[4]=0.05f;
+		time[5]=0.05f;
+		time[6]=0.05f;
+
+		
+		Animation playerAnimation = new Animation(playerTexs,time);
+		
+		return new Player(playerAnimation,grid.getTile(0, 0),64,64,100,25, grid);
+		
+	}
+	
 	private void setupSound() {
 		sm = new SoundManager(2);
-		sm.setVolume(5);
+		//sm.setVolume(5);
 		sm.enableLoop();
 		sm.addSound("audio/music.wav", "music");
 		sm.playSound("music");
