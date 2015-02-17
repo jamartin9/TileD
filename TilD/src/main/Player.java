@@ -45,7 +45,7 @@ public class Player{
 					System.out.println("Out of Bounds");
 					break;
 				}
-				nextTile = grid.getTile((int) ((x+10) / 64), (int) ((y+64) / 64));
+				nextTile = grid.getTile((int) ((x+10) / 64), (int) ((y+60) / 64));
 				if (nextTile.getType().moveable) {
 					x -= Clock.delta() * speed;
 				}
