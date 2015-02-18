@@ -2,18 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/justin/workspace/lwjgl/lwjgl-2.9.1/jar/lwjgl.jar">
+	<classpathentry kind="lib" path="/usr/local/lwjgl-2.9.1/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="file:/home/justin/workspace/lwjgl/lwjgl-2.9.1/doc/"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/justin/workspace/lwjgl/lwjgl-2.9.1/native/linux"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/usr/local/lwjgl-2.9.1/native/linux"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/justin/workspace/lwjgl/lwjgl-2.9.1/jar/lwjgl_util.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/home/justin/workspace/lwjgl/lwjgl-2.9.1/doc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/justin/workspace/lwjgl/lwjgl-2.9.1/jar/lzma.jar"/>
-	<classpathentry kind="lib" path="/home/justin/Downloads/slick-util.jar"/>
+	<classpathentry kind="lib" path="/usr/local/lwjgl-2.9.1/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="/usr/local/lwjgl-2.9.1/jar/lzma.jar"/>
+	<classpathentry kind="lib" path="/usr/local/slick-util/lib/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
