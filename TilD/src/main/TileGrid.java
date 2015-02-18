@@ -1,16 +1,16 @@
 package main;
 
 public class TileGrid {
-	private Maps mapper;
+
 	public Tile[][] map;
-	public TileGrid() {
+	/*public TileGrid() {
 		map= new Tile[20][15];
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
-				//map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+				map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
 			}
 		}
-	}
+	}*/
 
 	public TileGrid(int [][] newMap){
 		map= new Tile[20][15];
@@ -29,6 +29,9 @@ public class TileGrid {
 						break;
 					case 3:
 						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Town);
+						break;
+					case 4:
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.test);
 						break;
 					default:
 						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);

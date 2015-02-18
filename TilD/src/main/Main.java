@@ -16,7 +16,7 @@ public class Main {
 	private SoundManager sm;
 	private static Player playerOne;
 	private static Enemy enemyOne;
-	private Maps mapper;
+	static Maps mapper = new Maps();
 	
 	public Main() {
 		// setup
@@ -65,11 +65,13 @@ public class Main {
 
 	}
 	
-	public static void changeMap(){
-		TileGrid grd = new TileGrid();
-		grid = grd;
-		playerOne.setGrid(grd);
-		enemyOne.setGrid(grd);
+	public static void changeMap(int i){
+		if(i == 1)
+			grid = new TileGrid(mapper.map2);
+		if(i == 2)
+			grid = new TileGrid(mapper.map3);
+		playerOne.setGrid(grid);
+		enemyOne.setGrid(grid);
 		
 	}
 	
@@ -77,7 +79,8 @@ public class Main {
 		
 		// 0= grass, 1= dirt, 2= water, 3= town. Maps can be made this way on the 20x15 grid
 		
-		grid = new TileGrid(mapper.mapOver);
+		
+		grid = new TileGrid(mapper.map1);
 	}
 
 	private Enemy createEnemyNix(){
@@ -85,7 +88,7 @@ public class Main {
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
 		float[] enemyTime = new float[1];		
 		// moving
-		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/enemy1.png", "PNG"));
 		// set time
 		enemyTime[0]=0;
 		Animation enemyAnim = new Animation(enemyTexs,enemyTime);

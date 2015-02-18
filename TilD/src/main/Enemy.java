@@ -30,9 +30,9 @@ public class Enemy extends GameObject {
 	private void wander(int dir) {
 		// choose random tile to move to
 		//
-		// 1
+		//   1
 		// 0 X 2
-		// 3
+		//   3
 		//
 
 		switch (dir) {

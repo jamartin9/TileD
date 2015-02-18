@@ -16,6 +16,7 @@ public class Player extends GameObject {
 		up=false ;
 		down=false;
 	}
+	
 
 	public void startAnim(){
 		anim.setRange(0, 0);
@@ -35,7 +36,7 @@ public class Player extends GameObject {
 				}
 				if(left){
 					if(nextTile.getType().hasInstance){
-						Main.changeMap();
+						Main.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
@@ -47,7 +48,8 @@ public class Player extends GameObject {
 				}
 				if(right){
 					if(nextTile.getType().hasInstance){
-						Main.changeMap();
+						
+						Main.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
@@ -59,7 +61,8 @@ public class Player extends GameObject {
 				}
 				if(up){
 					if(nextTile.getType().hasInstance){
-						Main.changeMap();
+					
+						Main.changeMap(nextTile.getType().change);
 					}
 				}
 
@@ -72,7 +75,8 @@ public class Player extends GameObject {
 				}
 				if(down){
 					if(nextTile.getType().hasInstance){
-						Main.changeMap();
+						
+						Main.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
