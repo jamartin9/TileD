@@ -10,36 +10,35 @@ import utils.Artist;
 import utils.Clock;
 import utils.SoundManager;
 
-public class Main {
+public class Boot {
 
 	private static TileGrid grid;
 	private SoundManager sm;
 	private static Player playerOne;
 	private static Enemy enemyOne;
-	static Maps mapper = new Maps();
+    	private static Maps mapper;
+
 	
-	public Main() {
+	public Boot() {
 		// setup
 		Artist.BeginSession();
 		setupSound();
+		mapper = new Maps();
 		createInitMap();
 		enemyOne = createEnemyNix();
 		playerOne = createPlayer();
-		
-		// start thread polling for animation
-		playerOne.startAnim();
-		enemyOne.startAnim();
-		
+				
 		while (!Display.isCloseRequested()) {
 			
 			// update the clock
 			Clock.update();
-			
+
 			playerOne.update();
-			
+			playerOne.startAnim();
+
 			// update enemy position
 			enemyOne.update();
-			
+			enemyOne.startAnim();
 			// redraw map
 			grid.draw();
 			
@@ -56,7 +55,6 @@ public class Main {
 			Display.sync(60);
 		}
 		// end game
-		//playerThread.stop();
 		Display.destroy();
 		Keyboard.destroy();
 		sm.stopSound();
@@ -78,7 +76,7 @@ public class Main {
 	private void createInitMap(){
 		
 		// 0= grass, 1= dirt, 2= water, 3= town. Maps can be made this way on the 20x15 grid
-		
+
 		
 		grid = new TileGrid(mapper.map1);
 	}
@@ -88,7 +86,7 @@ public class Main {
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
 		float[] enemyTime = new float[1];		
 		// moving
-		enemyTexs.add(Artist.loadTexture("images/enemy1.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
 		// set time
 		enemyTime[0]=0;
 		Animation enemyAnim = new Animation(enemyTexs,enemyTime);
@@ -109,16 +107,16 @@ public class Main {
 		playerTexs.add(Artist.loadTexture("images/char_right_stand.png", "PNG"));
 		playerTexs.add(Artist.loadTexture("images/char_right_step_right.png", "PNG"));
 		playerTexs.add(Artist.loadTexture("images/character_left_step_right.png", "PNG"));
-		time[1]=0.05f;
-		time[2]=0.05f;
-		time[3]=0.05f;		
+		time[1]=0.8f;
+		time[2]=0.8f;
+		time[3]=0.8f;		
 		// moving left
 		playerTexs.add(Artist.loadTexture("images/char_left_stand.png", "PNG"));
 		playerTexs.add(Artist.loadTexture("images/char_right_step_left.png", "PNG"));
 		playerTexs.add(Artist.loadTexture("images/character_left_step_left.png", "PNG"));
-		time[4]=0.05f;
-		time[5]=0.05f;
-		time[6]=0.05f;
+		time[4]=0.8f;
+		time[5]=0.8f;
+		time[6]=0.8f;
 
 		
 		Animation playerAnimation = new Animation(playerTexs,time);
@@ -129,7 +127,7 @@ public class Main {
 	
 	private void setupSound() {
 		sm = new SoundManager(2);
-		//sm.setVolume(5);
+		sm.setVolume(5);
 		sm.enableLoop();
 		sm.addSound("audio/music.wav", "music");
 		sm.playSound("music");
@@ -137,7 +135,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Main boot = new Main();
+		Boot boot = new Boot();
 	}
 
 }

@@ -12,6 +12,7 @@ public class Enemy extends GameObject {
 			int health, int speed, TileGrid grid) {
 		super(anim, startTile, width, height, health, speed, grid);
 		firstRun = true;
+		anim.setRange(0, 0);
 	}
 
 	public void update() {
@@ -30,9 +31,9 @@ public class Enemy extends GameObject {
 	private void wander(int dir) {
 		// choose random tile to move to
 		//
-		//   1
+		// 1
 		// 0 X 2
-		//   3
+		// 3
 		//
 
 		switch (dir) {
@@ -71,9 +72,7 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void startAnim() {
-		anim.setRange(0, 0);
-		animThread = new Thread(anim);
-		animThread.start();
+		anim.update();
 	}
 
 }

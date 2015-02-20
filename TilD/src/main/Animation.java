@@ -6,7 +6,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import utils.Clock;
 
-public class Animation implements Runnable {
+public class Animation {
 
 	private ArrayList<Texture> animations;
 	private float[] length;
@@ -30,13 +30,12 @@ public class Animation implements Runnable {
 	
 	// get a texture
 	public Texture getTex() {
-		time = length[currentIndex];
 		return animations.get(currentIndex);
 	}
 
 	// pass time
 	private void tick() {
-		time -= Clock.getDelta();
+		time -= Clock.getDeltaTime();
 	}
 
 	// set which animations
@@ -44,14 +43,18 @@ public class Animation implements Runnable {
 		rangeStart = start;
 		currentIndex = rangeStart;
 		rangeEnd = end;
+		time = length[currentIndex];
+
 	}
 
 	public void update() {
-		if (time <= 0) {
+		if (time < 0) {
 			currentIndex++;
 			if(currentIndex > rangeEnd){
 				currentIndex = rangeStart;
 			}
+			time = length[currentIndex];
+
 		}else{
 			tick();
 		}
@@ -61,19 +64,7 @@ public class Animation implements Runnable {
 		isRunning = false;
 	}
 
-	@Override
-	public void run() {
-		isRunning = true;
-		while (isRunning) {
-			update();
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
-	}
+
 
 }

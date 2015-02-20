@@ -27,6 +27,9 @@ public class Clock {
 		lastFrame = getTime();
 		return delta * 0.01f;
 	}
+	public static float getDeltaTime(){
+		return deltaTime;
+	}
 
 	public static float delta() {
 		if (paused) {

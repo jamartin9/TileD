@@ -15,13 +15,12 @@ public class Player extends GameObject {
 		left=false;
 		up=false ;
 		down=false;
+		anim.setRange(0, 0);
+
 	}
-	
 
 	public void startAnim(){
-		anim.setRange(0, 0);
-		animThread = new Thread(anim);
-		animThread.start();
+		anim.update();
 		}
 	/* TODO: Change movement Logic later */
 	public void update() {
@@ -36,7 +35,7 @@ public class Player extends GameObject {
 				}
 				if(left){
 					if(nextTile.getType().hasInstance){
-						Main.changeMap(nextTile.getType().change);
+					    Boot.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
@@ -48,21 +47,19 @@ public class Player extends GameObject {
 				}
 				if(right){
 					if(nextTile.getType().hasInstance){
-						
-						Main.changeMap(nextTile.getType().change);
+						Boot.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
 
 			case Keyboard.KEY_W:
 				up=moveUp();
-				if (anim.getRangeStart() != 0) {
+				if (anim.getRangeStart() != 0 && anim.getRangeEnd() !=0) {
 					anim.setRange(0, 0);
 				}
 				if(up){
 					if(nextTile.getType().hasInstance){
-					
-						Main.changeMap(nextTile.getType().change);
+						Boot.changeMap(nextTile.getType().change);
 					}
 				}
 
@@ -70,13 +67,12 @@ public class Player extends GameObject {
 
 			case Keyboard.KEY_S:
 				down=moveDown();
-				if (anim.getRangeStart() != 0) {
+				if (anim.getRangeStart() != 0 && anim.getRangeEnd() !=0) {
 					anim.setRange(0, 0);
 				}
 				if(down){
 					if(nextTile.getType().hasInstance){
-						
-						Main.changeMap(nextTile.getType().change);
+						Boot.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
