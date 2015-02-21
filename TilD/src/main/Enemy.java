@@ -22,6 +22,7 @@ public class Enemy extends GameObject {
 			return;
 		} else {
 			wander(dir);
+			startAnim();
 
 		}
 	}

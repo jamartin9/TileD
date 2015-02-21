@@ -27,6 +27,19 @@ public abstract class GameObject {
 	}
 
 
+	public float getX(){
+		return x;
+	}
+	public float getY(){
+		return y;
+	}
+	public int getWidth(){
+		return width;
+	}
+	public int getHeight(){
+		return height;
+	}
+	
 	public boolean moveRight() {
 	//	System.out.println("Right");
 

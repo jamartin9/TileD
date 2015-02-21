@@ -8,6 +8,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
 import utils.Clock;
+import utils.Physics;
 import utils.SoundManager;
 
 public class Boot {
@@ -16,7 +17,7 @@ public class Boot {
 	private SoundManager sm;
 	private static Player playerOne;
 	private static Enemy enemyOne;
-    	private static Maps mapper;
+    private static Maps mapper;
 
 	
 	public Boot() {
@@ -33,18 +34,19 @@ public class Boot {
 			// update the clock
 			Clock.update();
 
+			// update positions
 			playerOne.update();
-			playerOne.startAnim();
-
-			// update enemy position
 			enemyOne.update();
-			enemyOne.startAnim();
+
+			if(Physics.collides(playerOne, enemyOne)){
+				//change view here
+				changeMap(Clock.getRandom(3)+1);
+			}
+			
 			// redraw map
 			grid.draw();
-			
 			// redraw enemy
 			enemyOne.Draw();
-			
 			// redraw player
 			playerOne.Draw();
 			
@@ -86,7 +88,7 @@ public class Boot {
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
 		float[] enemyTime = new float[1];		
 		// moving
-		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/enemy1.png", "PNG"));
 		// set time
 		enemyTime[0]=0;
 		Animation enemyAnim = new Animation(enemyTexs,enemyTime);
