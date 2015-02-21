@@ -45,8 +45,10 @@ public class Boot {
 			
 			// redraw map
 			grid.draw();
+			
 			// redraw enemy
 			enemyOne.Draw();
+			
 			// redraw player
 			playerOne.Draw();
 			
@@ -66,10 +68,17 @@ public class Boot {
 	}
 	
 	public static void changeMap(int i){
-		if(i == 1)
+		switch(i){
+		case 1:
 			grid = new TileGrid(mapper.map2);
-		if(i == 2)
+			break;
+		case 2:
 			grid = new TileGrid(mapper.map3);
+			break;
+		default:
+			grid = new TileGrid(mapper.map1);
+		}
+	
 		playerOne.setGrid(grid);
 		enemyOne.setGrid(grid);
 		

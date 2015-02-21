@@ -1,10 +1,7 @@
 package main;
 
 import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.opengl.Texture;
 
-import utils.Artist;
-import utils.Clock;
 
 public class Player extends GameObject {
 	private boolean right,left,up,down;
@@ -19,9 +16,6 @@ public class Player extends GameObject {
 
 	}
 
-	public void startAnim(){
-		anim.update();
-		}
 	/* TODO: Change movement Logic later */
 	public void update() {
 

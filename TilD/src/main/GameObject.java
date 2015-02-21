@@ -116,6 +116,8 @@ public abstract class GameObject {
 	}
 	
 	public abstract void update();
-	public abstract void startAnim();
+	public void startAnim(){
+		anim.update();
+	};
 
 }
