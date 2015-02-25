@@ -20,5 +20,10 @@ public class Physics {
 			return false;
 		}
 	}
+	public static void applyGravity(GameObject player){
+		if(player.moveDown()){
+			player.setY(player.getY() + (Clock.delta()*player.getSpeed())); 
+		}
+	}
 
 }

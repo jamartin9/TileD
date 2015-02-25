@@ -8,13 +8,14 @@ public abstract class GameObject {
 	private TileGrid grid;
 	protected Animation anim;
 	Thread animThread;
-	private float x;
-	private float y;
+	protected float x;
+	protected float y;
 	private int width;
-	private int height;
-	private int speed;
+	protected int height;
+	protected int speed;
 	protected Tile nextTile; // Tile that will be moved to
-
+	protected boolean viewTopDown;
+	
 	public GameObject(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
 		this.anim = anim;
@@ -26,7 +27,10 @@ public abstract class GameObject {
 		this.grid = grid;
 	}
 
-
+	public void setView(boolean view){
+		viewTopDown=view;
+	}
+	
 	public float getX(){
 		return x;
 	}
@@ -39,18 +43,34 @@ public abstract class GameObject {
 	public int getHeight(){
 		return height;
 	}
+	public int getSpeed(){
+		return speed;
+	}
+	
+	public void setX(float x){
+		this.x=x;
+	}
+	public void setY(float y){
+		this.y=y;
+	}
+	public void setHeight(int height){
+		this.height = height;
+	}
+	public void setWidth(int width){
+		this.width=width;
+	}
 	
 	public boolean moveRight() {
 	//	System.out.println("Right");
 
-		if (x + 65 > Artist.getWidth()) {
+		if (x + width + 1 > Artist.getWidth()) {
 		//	System.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 60) / 64),
-				(int) ((y + 32) / 64));
+		nextTile = grid.getTile((int) ((x + (width-4)) / 64),
+				(int) ((y + (height/2)) / 64));
 		if (nextTile.getType().moveable) {
-			x += Clock.delta() * speed;
+			//x += Clock.delta() * speed;
 			return true;
 
 		}
@@ -64,9 +84,9 @@ public abstract class GameObject {
 			//System.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 10) / 64), (int) ((y + 55) / 64));
+		nextTile = grid.getTile((int) ((x + 10) / 64), (int) ((y + (height-9)) / 64));
 		if (nextTile.getType().moveable) {
-			x -= Clock.delta() * speed;
+			//x -= Clock.delta() * speed;
 			return true;
 		}
 		return false;
@@ -79,10 +99,24 @@ public abstract class GameObject {
 			//System.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 32) / 64),
+		nextTile = grid.getTile((int) ((x + (width/2)) / 64),
 				(int) ((y + 1) / 64));
 		if (nextTile.getType().moveable) {
-			y -= Clock.delta() * speed;
+			//y -= Clock.delta() * speed;
+			return true;
+
+		}
+		return false;
+	}
+	public boolean jumpUp(){
+		if (y- height *2 - 5 < 0) {
+			//System.out.println("Out of Bounds");
+			return false;
+		}
+		nextTile = grid.getTile((int) ((x + (width/2)) / 64),
+				(int) ((y + 1-height*2) / 64));
+		if (nextTile.getType().moveable) {
+			//y -= Clock.delta() * speed;
 			return true;
 
 		}
@@ -92,16 +126,15 @@ public abstract class GameObject {
 	public boolean moveDown() {
 	//	System.out.println("Down");
 
-		if (y + 70 > Artist.getHeight()) {
+		if (y + height + 5 > Artist.getHeight()) {
 			//ddSystem.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 32) / 64),
-				(int) (((y - 1) / 64) + 1));
+		nextTile = grid.getTile((int) ((x +(width/2)) / 64),
+				(int) ((((y - 1) + height) / 64)));
 		if (nextTile.getType().moveable) {
-			y += Clock.delta() * speed;
+			//y += Clock.delta() * speed;
 			return true;
-
 		}
 		return false;
 	}

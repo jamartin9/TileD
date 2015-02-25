@@ -18,7 +18,7 @@ public class Enemy extends GameObject {
 	public void update() {
 		if (firstRun) {
 			firstRun = false;
-			dir = Clock.getRandom(3);
+			dir = Clock.getRandom(4);
 			return;
 		} else {
 			wander(dir);
@@ -37,34 +37,45 @@ public class Enemy extends GameObject {
 		// 3
 		//
 
+		if(!viewTopDown){
+			// get new dir
+			if(dir == 1){
+				dir =0;
+			}
+		}
+		
 		switch (dir) {
 		case 0:
 			if (moveLeft()) {
+				x -= Clock.delta() * speed;
 				break;
 			} else {
-				this.dir = Clock.getRandom(3);
+				this.dir = Clock.getRandom(4);
 				break;
 			}
 		case 1:
 
 			if (moveUp()) {
+				y -= Clock.delta() * speed;
 				break;
 			} else {
-				this.dir = Clock.getRandom(3);
+				this.dir = Clock.getRandom(4);
 				break;
 			}
 		case 2:
 			if (moveRight()) {
+				x += Clock.delta() * speed;
 				break;
 			} else {
-				this.dir = Clock.getRandom(3);
+				this.dir = Clock.getRandom(4);
 				break;
 			}
 		case 3:
 			if (moveDown()) {
+				y += Clock.delta() * speed;
 				break;
 			} else {
-				this.dir = Clock.getRandom(3);
+				this.dir = Clock.getRandom(4);
 				break;
 			}
 		}
