@@ -73,7 +73,7 @@ public class Player extends GameObject {
 						anim.setRange(0, 0);
 					}
 					if(jumpUp()){
-						y -= height;
+						y -= height*2;
 					}
 				}
 				break;
