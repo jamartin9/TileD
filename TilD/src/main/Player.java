@@ -5,7 +5,6 @@ import org.lwjgl.input.Keyboard;
 import utils.Clock;
 
 public class Player extends GameObject {
-	private boolean right, left, up, down;
 
 	public Player(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
@@ -74,7 +73,7 @@ public class Player extends GameObject {
 						anim.setRange(0, 0);
 					}
 					if(jumpUp()){
-						y -= height*2;
+						y -= height;
 					}
 				}
 				break;

@@ -11,13 +11,11 @@ public class Animation {
 	private ArrayList<Texture> animations;
 	private float[] length;
 	private float time;
-	private boolean isRunning;
 	private int rangeStart, rangeEnd, currentIndex;
 
 	public Animation(ArrayList<Texture> animations, float[] length) {
 		this.animations = animations;
 		this.length = length;
-		isRunning = false;
 		currentIndex = 0;
 	}
 
@@ -60,9 +58,6 @@ public class Animation {
 		}
 	}
 
-	public void stop() {
-		isRunning = false;
-	}
 
 
 

@@ -2,9 +2,7 @@ package utils;
 
 import java.awt.Rectangle;
 
-import main.Enemy;
 import main.GameObject;
-import main.Player;
 
 public class Physics {
 

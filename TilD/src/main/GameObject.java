@@ -1,7 +1,6 @@
 package main;
 
 import utils.Artist;
-import utils.Clock;
 
 public abstract class GameObject {
 
@@ -15,6 +14,7 @@ public abstract class GameObject {
 	protected int speed;
 	protected Tile nextTile; // Tile that will be moved to
 	protected boolean viewTopDown;
+	private int health;
 	
 	public GameObject(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
@@ -25,10 +25,20 @@ public abstract class GameObject {
 		this.height = height;
 		this.speed = speed;
 		this.grid = grid;
+		this.health = health;
 	}
 
-	public void setView(boolean view){
-		viewTopDown=view;
+	public void setView(boolean viewTopDown){
+		this.viewTopDown=viewTopDown;
+	}
+	public void setHealth(int health){
+		this.health = health;
+	}
+	public int getHealth(){
+		return health;
+	}
+	public boolean getView(){
+		return viewTopDown;
 	}
 	
 	public float getX(){

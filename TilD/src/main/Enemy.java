@@ -37,13 +37,13 @@ public class Enemy extends GameObject {
 		// 3
 		//
 
-		if(!viewTopDown){
+		if(!getView()){
 			// get new dir
-			if(dir == 1){
+			if(dir == 1 || dir == 3){
 				dir =0;
 			}
 		}
-		
+
 		switch (dir) {
 		case 0:
 			if (moveLeft()) {

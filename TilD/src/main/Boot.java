@@ -15,9 +15,9 @@ public class Boot {
 
 	private static TileGrid grid;
 	private SoundManager sm;
-	private static Player playerOne;
-	private static Enemy enemyOne;
+	private static ArrayList<GameObject> gameObjects;
 	private static Maps mapper;
+	private static int enemyIndex;
 
 	public Boot() {
 		// setup
@@ -25,57 +25,116 @@ public class Boot {
 		setupSound();
 		mapper = new Maps();
 		createInitMap();
-		enemyOne = createEnemyNix();
-		playerOne = createPlayer();
+		gameObjects = new ArrayList<GameObject>(2);
+		// GameObjects[0] = player;
+		gameObjects.add(createPlayer());
+		gameObjects.add(createEnemyNix());
 
 		// Change view boolean
 		boolean viewTopDown = true;
-		// set their view for controls and AI respectively
-		playerOne.setView(viewTopDown);
-		enemyOne.setView(viewTopDown);
-		
+		// set views
+		for (GameObject e : gameObjects) {
+			e.setView(viewTopDown);
+		}
+		// create Grid for saving when view flips
+		TileGrid topDownGrid = null;
+		enemyIndex = 0;
+		float playerX = 0;
+		float playerY = 0;
 		while (!Display.isCloseRequested()) {
 
 			// update the clock
 			Clock.update();
 
-			// update positions
-			playerOne.update();
-			enemyOne.update();
-
-			// if we are in 2d
+			// if we are in topDown
 			if (viewTopDown) {
-				// check for collision
-				if (Physics.collides(playerOne, enemyOne)) {
-					// change map to 2d
-					changeMap(2);
-					// set player and enemy to new positions, sizes and views
-					playerOne.setWidth(128);
-					playerOne.setHeight(128);
-					playerOne.setX(5);
-					playerOne.setY(Artist.getHeight()-playerOne.getHeight()*2-10);
-					enemyOne.setWidth(128);
-					enemyOne.setWidth(128);
-					enemyOne.setX(Artist.getWidth()- enemyOne.getWidth() - 7);
-					enemyOne.setY(Artist.getHeight()-enemyOne.getHeight() * 2);
-					viewTopDown = false;
-					playerOne.setView(viewTopDown);
-					enemyOne.setView(viewTopDown);
-					
+				// check for collision/update
+				for (int i = 0; i < gameObjects.size(); i++) {
+					// update
+					gameObjects.get(i).update();
+
+					// check for collision for all enemies with player
+					if (i != 0 && Physics.collides(gameObjects.get(0), gameObjects.get(i))) {
+
+						// save index, grid, x, y
+						enemyIndex = i;
+						topDownGrid = grid;
+						playerX=gameObjects.get(0).getX();
+						playerY=gameObjects.get(0).getY();
+
+						// change map
+						changeMap(2);
+
+						// set player and enemy to new positions, sizes and views
+						gameObjects.get(0).setWidth(128);
+						gameObjects.get(0).setHeight(128);
+						gameObjects.get(0).setX(5);
+						gameObjects.get(0).setY(Artist.getHeight()- gameObjects.get(0).getHeight() * 2);
+						gameObjects.get(i).setWidth(128);
+						gameObjects.get(i).setWidth(128);
+						gameObjects.get(i).setX(Artist.getWidth()- gameObjects.get(i).getWidth() - 7);
+						gameObjects.get(i).setY(Artist.getHeight()- gameObjects.get(i).getHeight() * 2);
+
+						// update views
+						viewTopDown = false;
+						gameObjects.get(0).setView(viewTopDown);
+						gameObjects.get(i).setView(viewTopDown);
+						break;
+
+					}
 				}
-			}else{
+			}
+			// if not in overhead top down view
+			else {
+				// update player and opponent respectively
+				gameObjects.get(0).update();
+				gameObjects.get(enemyIndex).update();
 				// make objects fall
-				Physics.applyGravity(playerOne);
-				Physics.applyGravity(enemyOne);
+				Physics.applyGravity(gameObjects.get(0));
+				Physics.applyGravity(gameObjects.get(enemyIndex));
+				// check collision
+				if (Physics.collides(gameObjects.get(0), gameObjects.get(enemyIndex))) {
+					/* kill enemy for now */
+					gameObjects.get(enemyIndex).setHealth(0);
+					
+					// if player died
+					if (gameObjects.get(0).getHealth() <= 0) {
+						System.out.println("GAME OVER");
+						break;
+					}
+					
+					// if enemy died
+					else if (gameObjects.get(enemyIndex).getHealth() <= 0) {
+						
+						// remove dead enemy
+						gameObjects.remove(enemyIndex);
+						
+						// put view back on player
+						viewTopDown = true;
+						gameObjects.get(0).setGrid(topDownGrid);
+						gameObjects.get(0).setView(viewTopDown);
+						gameObjects.get(0).setWidth(64);
+						gameObjects.get(0).setHeight(64);
+						gameObjects.get(0).setX(playerX);
+						gameObjects.get(0).setY(playerY);
+						// put world view back
+						grid = topDownGrid;
+					}
+				}
 			}
 			// redraw map
-			grid.draw(); 
+			grid.draw();
 
-			// redraw enemy
-			enemyOne.Draw();
-
-			// redraw player
-			playerOne.Draw();
+			// redraw objects
+			if (viewTopDown) {
+				for (GameObject e : gameObjects) {
+					e.Draw();
+				}
+			} else {
+				// redraw player and enemy
+				gameObjects.get(0).Draw();
+				gameObjects.get(enemyIndex).Draw();
+			}
 
 			// update the display
 			Display.update();
@@ -104,9 +163,17 @@ public class Boot {
 			grid = new TileGrid(mapper.map1);
 		}
 
-		playerOne.setGrid(grid);
-		enemyOne.setGrid(grid);
-
+		// check the players view
+		if (gameObjects.get(0).getView()) {
+			// update all grid holders
+			for (GameObject e : gameObjects) {
+				e.setGrid(grid);
+			}
+		} else {
+			// update the two who are fightings grid only
+			gameObjects.get(0).setGrid(grid);
+			gameObjects.get(enemyIndex).setGrid(grid);
+		}
 	}
 
 	private void createInitMap() {
