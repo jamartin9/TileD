@@ -13,10 +13,19 @@ import utils.SoundManager;
 
 public class Boot {
 
+	// copy of the map
 	private static TileGrid grid;
+	
+	// music player
 	private SoundManager sm;
+	
+	// list of all objects that can interact (non-terrain)
 	private static ArrayList<GameObject> gameObjects;
+	
+	/*Keep mapper if generating all at once, remove/change if not*/
 	private static Maps mapper;
+	
+	// save which enemy the player is fighting
 	private static int enemyIndex;
 
 	public Boot() {
@@ -32,23 +41,28 @@ public class Boot {
 
 		// Change view boolean
 		boolean viewTopDown = true;
+		
 		// set views
 		for (GameObject e : gameObjects) {
 			e.setView(viewTopDown);
 		}
-		// create Grid for saving when view flips
+		
+		// create variables to save when view flips
 		TileGrid topDownGrid = null;
 		enemyIndex = 0;
 		float playerX = 0;
 		float playerY = 0;
+		
+		// Game Loop
 		while (!Display.isCloseRequested()) {
 
 			// update the clock
 			Clock.update();
 
-			// if we are in topDown
+			// if we are in topDown view
 			if (viewTopDown) {
-				// check for collision/update
+				
+				// for each gameObject
 				for (int i = 0; i < gameObjects.size(); i++) {
 					// update
 					gameObjects.get(i).update();
@@ -89,9 +103,11 @@ public class Boot {
 				// update player and opponent respectively
 				gameObjects.get(0).update();
 				gameObjects.get(enemyIndex).update();
+				
 				// make objects fall
 				Physics.applyGravity(gameObjects.get(0));
 				Physics.applyGravity(gameObjects.get(enemyIndex));
+				
 				// check collision
 				if (Physics.collides(gameObjects.get(0), gameObjects.get(enemyIndex))) {
 					/* kill enemy for now */
@@ -108,6 +124,7 @@ public class Boot {
 						
 						// remove dead enemy
 						gameObjects.remove(enemyIndex);
+						enemyIndex=0;
 						
 						// put view back on player
 						viewTopDown = true;
@@ -117,6 +134,7 @@ public class Boot {
 						gameObjects.get(0).setHeight(64);
 						gameObjects.get(0).setX(playerX);
 						gameObjects.get(0).setY(playerY);
+						
 						// put world view back
 						grid = topDownGrid;
 					}
@@ -142,6 +160,7 @@ public class Boot {
 			// sync at 60 fps
 			Display.sync(60);
 		}
+		
 		// end game
 		Display.destroy();
 		Keyboard.destroy();
@@ -153,24 +172,25 @@ public class Boot {
 
 	public static void changeMap(int i) {
 		switch (i) {
-		case 1:
-			grid = new TileGrid(mapper.map2);
-			break;
-		case 2:
-			grid = new TileGrid(mapper.map3);
-			break;
-		default:
-			grid = new TileGrid(mapper.map1);
+			case 1:
+				grid = new TileGrid(mapper.map2);
+				break;
+			case 2:
+				grid = new TileGrid(mapper.map3);
+				break;
+			default:
+				grid = new TileGrid(mapper.map1);
 		}
 
 		// check the players view
 		if (gameObjects.get(0).getView()) {
+			
 			// update all grid holders
 			for (GameObject e : gameObjects) {
 				e.setGrid(grid);
 			}
 		} else {
-			// update the two who are fightings grid only
+			// update the two who are fighting grids only
 			gameObjects.get(0).setGrid(grid);
 			gameObjects.get(enemyIndex).setGrid(grid);
 		}
@@ -197,6 +217,7 @@ public class Boot {
 		return new Enemy(enemyAnim, grid.getTile(10, 10), 64, 64, 100, 7, grid);
 	}
 
+	
 	private Player createPlayer() {
 		/* Create animation for player */
 		ArrayList<Texture> playerTexs = new ArrayList<Texture>();
@@ -233,6 +254,7 @@ public class Boot {
 
 	}
 
+	
 	private void setupSound() {
 		sm = new SoundManager(2);
 		sm.setVolume(5);
@@ -241,6 +263,7 @@ public class Boot {
 		sm.playSound("music");
 	}
 
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Boot boot = new Boot();
