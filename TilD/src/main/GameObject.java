@@ -72,7 +72,7 @@ public abstract class GameObject {
 	public boolean moveRight() {
 	//	System.out.println("Right");
 
-		if (x + width + 1 > Artist.getWidth()) {
+		if (x + width + 5 > Artist.getWidth()) {
 		//	System.out.println("Out of Bounds");
 			return false;
 		}

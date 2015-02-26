@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+
 import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
@@ -96,6 +97,55 @@ public class Controller {
 				break;
 			default:
 				model.setGrid(mapper.MAP1);
+		}
+	}
+	
+	public static void topDownUpdate(){
+		
+		if(model.checkCollisionTopDown()){
+
+			// change map
+			changeMap(2);
+
+			// set player and enemy to new positions, sizes and views
+			model.getPlayer().setWidth(128);
+			model.getPlayer().setHeight(128);
+			model.getPlayer().setX(5);
+			model.getPlayer().setY(Artist.getHeight() -model.getPlayer().getHeight() * 2);
+			model.getCurrentEnemy().setWidth(128);
+			model.getCurrentEnemy().setHeight(128);
+			model.getCurrentEnemy().setX(Artist.getWidth() - model.getCurrentEnemy().getWidth() - 7);
+			model.getCurrentEnemy().setY(Artist.getHeight() - model.getCurrentEnemy().getHeight() * 2);
+
+		}
+	}
+	
+	public static TileGrid getInitMap(){
+		return mapper.MAP1;
+	}
+	
+	public static void sideScrollUpdate(){
+		if(model.checkCollisionSideScroll()){
+		/* kill enemy for now */
+		model.getCurrentEnemy().setHealth(0);
+
+		// if player died
+		if (model.getPlayer().getHealth() <= 0) {
+			System.out.println("GAME OVER");
+			System.exit(0);
+		}
+
+		// if enemy died
+		else if (model.getCurrentEnemy().getHealth() <= 0) {
+			// put view back on player
+			model.setTopDown(true);
+			model.getPlayer().setGrid(model.getTopDownGrid());
+			model.getPlayer().setView(model.getTopDown());
+			model.getPlayer().setWidth(64);
+			model.getPlayer().setHeight(64);
+			model.resetPlayerCords();
+			model.resetTopDownGrid();
+			}
 		}
 	}
 	
