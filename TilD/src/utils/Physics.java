@@ -1,7 +1,6 @@
 package utils;
 
 import java.awt.Rectangle;
-
 import main.GameObject;
 
 public class Physics {
@@ -22,6 +21,6 @@ public class Physics {
 		if(player.moveDown()){
 			player.setY(player.getY() + (Clock.delta()*player.getSpeed())); 
 		}
+		
 	}
-
 }

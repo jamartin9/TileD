@@ -9,4 +9,5 @@
 # Create Story/Plot
 # Change Jump mechanics
 # Add Attacking
+# Refactor into MVC where able
 # Fix and remove any/all bugs

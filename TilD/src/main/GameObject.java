@@ -6,7 +6,6 @@ public abstract class GameObject {
 
 	private TileGrid grid;
 	protected Animation anim;
-	Thread animThread;
 	protected float x;
 	protected float y;
 	private int width;

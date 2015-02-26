@@ -13,7 +13,7 @@ public class Player extends GameObject {
 
 	}
 
-	/* TODO: Change movement Logic later */
+	/* TODO: Change movement Logic later , Pull Keyboard events out into the view*/
 	public void update() {
 
 		while (Keyboard.next()) {
@@ -26,7 +26,7 @@ public class Player extends GameObject {
 				if (moveLeft()) {
 					x -= Clock.delta() * speed;
 					if (nextTile.getType().hasInstance) {
-						Boot.changeMap(nextTile.getType().change);
+						Controller.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
@@ -38,7 +38,7 @@ public class Player extends GameObject {
 				if (moveRight()) {
 					x += Clock.delta() * speed;
 					if (nextTile.getType().hasInstance) {
-						Boot.changeMap(nextTile.getType().change);
+						Controller.changeMap(nextTile.getType().change);
 					}
 				}
 				break;
@@ -50,7 +50,7 @@ public class Player extends GameObject {
 				if (moveUp()) {
 					y -= Clock.delta() * speed;
 					if (nextTile.getType().hasInstance) {
-						Boot.changeMap(nextTile.getType().change);
+						Controller.changeMap(nextTile.getType().change);
 					}
 				}
 
@@ -63,7 +63,7 @@ public class Player extends GameObject {
 				if (moveDown()) {
 					y += Clock.delta() * speed;
 					if (nextTile.getType().hasInstance) {
-						Boot.changeMap(nextTile.getType().change);
+						Controller.changeMap(nextTile.getType().change);
 					}
 				}
 				break;

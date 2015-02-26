@@ -19,8 +19,8 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Artist {
 
 	/* Texture should be 64x64 for 20x15 map */
-	private static final int HEIGHT = 960;
-	private static final int WIDTH = 1280;
+	private static int HEIGHT = 960;
+	private static int WIDTH = 1280;
 
 	public static void BeginSession() {
 		Display.setTitle("TilD");
