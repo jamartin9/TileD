@@ -12,12 +12,12 @@ public class Controller {
 	private View view;
 	private static Model model;
 	/* Keep mapper if generating all at once, remove/change if not */
-	private static Maps mapper;
+	private static Mapper mapper;
 
 
 	public Controller() {
 		view = new View();
-		mapper = new Maps();
+		mapper = new Mapper();
 		model = new Model();
 		model.addEnemy(createEnemyNix());
 		model.addPlayer(createPlayer());
@@ -89,13 +89,13 @@ public class Controller {
 		/*Change this to not make a new map each time?*/
 		switch (i) {
 			case 1:
-				model.setGrid(new TileGrid(mapper.map2));
+				model.setGrid(mapper.MAP2);
 				break;
 			case 2:
-				model.setGrid(new TileGrid(mapper.map3));
+				model.setGrid(mapper.MAP3);
 				break;
 			default:
-				model.setGrid(new TileGrid(mapper.map1));
+				model.setGrid(mapper.MAP1);
 		}
 	}
 	
