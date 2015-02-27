@@ -137,6 +137,7 @@ public class Controller {
 
 		// if enemy died
 		else if (model.getCurrentEnemy().getHealth() <= 0) {
+			model.removeEnemy();
 			// put view back on player
 			model.setTopDown(true);
 			model.getPlayer().setGrid(model.getTopDownGrid());
