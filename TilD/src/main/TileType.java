@@ -3,11 +3,15 @@ package main;
 public enum TileType {
 
 	// the name of the file without png
-	Grass("grass",true,false,0),
+	Grass("Grass",true,false,0),
 	Dirt("dirt",true,false,0),
-	Water("water",false,false,0),
-	Town("town",true,true,1),
-	test("stuff",true,true,2);
+	Water("Water",false,false,0),
+	Town("Town",true,true,1),
+	Stone("Stone",false,false,0),
+	Sky("Sky",true,false,0),
+	Wood("Wood",true,false,0),
+	Leaf("Leaves",true,false,0),
+	cloud("AngryCloud",false,false,0);
 	
 	String textureName;
 	boolean moveable;

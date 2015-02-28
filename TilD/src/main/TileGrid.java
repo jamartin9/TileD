@@ -31,7 +31,19 @@ public class TileGrid {
 						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Town);
 						break;
 					case 4:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.test);
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Stone);
+						break;
+					case 5:
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Sky);
+						break;
+					case 6:
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Wood);
+						break;
+					case 7:
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Leaf);
+						break;
+					case 8:
+						map[i][j] = new Tile(i*64,j*64,64,64,TileType.cloud);
 						break;
 					default:
 						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
