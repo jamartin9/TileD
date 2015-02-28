@@ -74,4 +74,11 @@ public class Tile {
 		this.texture = texture;
 	}
 
+	public void resize(int sizeWidth, int sizeHeight, int translateX, int translateY) {
+		this.width=sizeWidth;
+		this.height=sizeHeight;
+		this.x += translateX;
+		this.y -= translateY;
+	}
+
 }

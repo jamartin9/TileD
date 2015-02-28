@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
@@ -20,24 +21,24 @@ public class Controller {
 		view = new View();
 		mapper = new Mapper();
 		model = new Model();
-		model.addEnemy(createEnemyNix());
+		model.addEnemy(createEnemyGoblin());
 		model.addPlayer(createPlayer());
 		Thread ViewThread = new Thread(view);
 		view.releaseContext();
 		ViewThread.start();
 	}
 
-	private Enemy createEnemyNix() {
+	private Enemy createEnemyGoblin() {
 		/* Create animation for enemy */
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
 		float[] enemyTime = new float[1];
 		// moving
-		enemyTexs.add(Artist.loadTexture("images/enemy1.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
 		// set time
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
 
-		return new Enemy(enemyAnim, model.getTile(10, 10), 64, 64,
+		return new Enemy(enemyAnim, model.getTile(10, 10), Artist.getScaleX(), Artist.getScaleY(),
 				100, 7, model.getGrid());
 	}
 
@@ -72,8 +73,8 @@ public class Controller {
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
-		return new Player(playerAnimation, model.getTile(0, 0), 64,
-				64, 100, 25, model.getGrid());
+		return new Player(playerAnimation, model.getTile(0, 0), Artist.getScaleX(),
+				Artist.getScaleY(), 100, 25, model.getGrid());
 
 	}
 
@@ -108,12 +109,12 @@ public class Controller {
 			changeMap(2);
 
 			// set player and enemy to new positions, sizes and views
-			model.getPlayer().setWidth(128);
-			model.getPlayer().setHeight(128);
+			model.getPlayer().setWidth(Artist.getScaleX()*2);
+			model.getPlayer().setHeight(Artist.getScaleY()*2);
 			model.getPlayer().setX(5);
 			model.getPlayer().setY(Artist.getHeight() -model.getPlayer().getHeight() * 2);
-			model.getCurrentEnemy().setWidth(128);
-			model.getCurrentEnemy().setHeight(128);
+			model.getCurrentEnemy().setWidth(Artist.getScaleX()*2);
+			model.getCurrentEnemy().setHeight(Artist.getScaleY()*2);
 			model.getCurrentEnemy().setX(Artist.getWidth() - model.getCurrentEnemy().getWidth() - 7);
 			model.getCurrentEnemy().setY(Artist.getHeight() - model.getCurrentEnemy().getHeight() * 2);
 
@@ -142,8 +143,8 @@ public class Controller {
 			model.setTopDown(true);
 			model.getPlayer().setGrid(model.getTopDownGrid());
 			model.getPlayer().setView(model.getTopDown());
-			model.getPlayer().setWidth(64);
-			model.getPlayer().setHeight(64);
+			model.getPlayer().setWidth(Artist.getScaleX());
+			model.getPlayer().setHeight(Artist.getScaleY());
 			model.resetPlayerCords();
 			model.resetTopDownGrid();
 			}
@@ -154,6 +155,14 @@ public class Controller {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unused")
 		Controller boot = new Controller();
+	}
+
+	public static void resize() {
+		int newWidth = Display.getWidth();
+		int newHeight = Display.getHeight();
+		int currentHeight = Artist.getHeight();
+		int currentWidth = Artist.getWidth();
+		int scale = Artist.getScaleX();
 	}
 	
 

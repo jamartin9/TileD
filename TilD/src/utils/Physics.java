@@ -19,7 +19,7 @@ public class Physics {
 	}
 	public static void applyGravity(GameObject player){
 		if(player.moveDown()){
-			player.setY(player.getY() + (Clock.delta()*player.getSpeed())); 
+			player.setY(player.getY() + (Clock.delta()*player.getSpeed()*1.25f)); 
 		}
 		
 	}

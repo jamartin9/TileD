@@ -14,7 +14,7 @@ public abstract class GameObject {
 	protected Tile nextTile; // Tile that will be moved to
 	protected boolean viewTopDown;
 	private int health;
-	
+
 	public GameObject(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
 		this.anim = anim;
@@ -27,59 +27,118 @@ public abstract class GameObject {
 		this.health = health;
 	}
 
-	public void setView(boolean viewTopDown){
-		this.viewTopDown=viewTopDown;
+	public void setView(boolean viewTopDown) {
+		this.viewTopDown = viewTopDown;
 	}
-	public void setHealth(int health){
+
+	public void setHealth(int health) {
 		this.health = health;
 	}
-	public int getHealth(){
+
+	public int getHealth() {
 		return health;
 	}
-	public boolean getView(){
+
+	public boolean getView() {
 		return viewTopDown;
 	}
-	
-	public float getX(){
+
+	public float getX() {
 		return x;
 	}
-	public float getY(){
+
+	public float getY() {
 		return y;
 	}
-	public int getWidth(){
+
+	public int getWidth() {
 		return width;
 	}
-	public int getHeight(){
+
+	public int getHeight() {
 		return height;
 	}
-	public int getSpeed(){
+
+	public int getSpeed() {
 		return speed;
 	}
-	
-	public void setX(float x){
-		this.x=x;
+
+	public void setX(float x) {
+		this.x = x;
 	}
-	public void setY(float y){
-		this.y=y;
+
+	public void setY(float y) {
+		this.y = y;
 	}
-	public void setHeight(int height){
+
+	public void setHeight(int height) {
 		this.height = height;
 	}
-	public void setWidth(int width){
-		this.width=width;
-	}
-	
-	public boolean moveRight() {
-	//	System.out.println("Right");
 
-		if (x + width + 5 > Artist.getWidth()) {
-		//	System.out.println("Out of Bounds");
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	/*TODO: Move hit boxes*/
+	
+	public boolean moveUpRight() {
+		if (x + width + 5 > Artist.getWidth() || y - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width-4)) / 64),
-				(int) ((y + (height/2)) / 64));
+		nextTile = grid.getTile((int) ((x + width ) / 64),
+				(int) (y  / 64));
 		if (nextTile.getType().moveable) {
-			//x += Clock.delta() * speed;
+			return true;
+
+		}
+		return false;
+	}
+
+	public boolean moveUpLeft() {
+		if (x -1 > Artist.getWidth() || y - 5 < 0) {
+			return false;
+		}
+		nextTile = grid.getTile((int) (x  / 64), (int) (y  / 64));
+		if (nextTile.getType().moveable) {
+			return true;
+
+		}
+		return false;
+	}
+
+	public boolean moveDownRight() {
+
+		if (y + height + 5 > Artist.getHeight() || x + width + 5 > Artist.getWidth()) {
+			return false;
+		}
+		nextTile = grid.getTile((int) ((x + width+4) / 64),
+				(int) (((y + height) / 64)));
+		if (nextTile.getType().moveable) {
+			return true;
+		}
+		return false;	
+		}
+
+	public boolean moveDownLeft() {
+		if (y + height + 5 > Artist.getHeight() || x -1 <= 0) {
+			return false;
+		}
+		nextTile = grid.getTile((int) (x / 64),
+				(int) (((y + height) / 64)));
+		if (nextTile.getType().moveable) {
+			return true;
+		}
+		return false;
+		}
+
+	public boolean moveRight() {
+
+		if (x + width + 5 > Artist.getWidth()) {
+			return false;
+		}
+		nextTile = grid.getTile((int) ((x + (width + 4)) / 64),
+				(int) ((y + (height / 2)+ (height / 4)) / 64));
+		if (nextTile.getType().moveable) {
 			return true;
 
 		}
@@ -87,45 +146,26 @@ public abstract class GameObject {
 	}
 
 	public boolean moveLeft() {
-		//System.out.println("Left");
 
 		if (x - 1 <= 0) {
-			//System.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 10) / 64), (int) ((y + (height-9)) / 64));
+		nextTile = grid.getTile((int) ((x + 10) / 64),
+				(int) ((y + (height - 9)) / 64));
 		if (nextTile.getType().moveable) {
-			//x -= Clock.delta() * speed;
 			return true;
 		}
 		return false;
 	}
 
 	public boolean moveUp() {
-	//	System.out.println("Up");
 
 		if (y - 5 < 0) {
-			//System.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width/2)) / 64),
+		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
 				(int) ((y + 1) / 64));
 		if (nextTile.getType().moveable) {
-			//y -= Clock.delta() * speed;
-			return true;
-
-		}
-		return false;
-	}
-	public boolean jumpUp(){
-		if (y- height *2 - 5 < 0) {
-			//System.out.println("Out of Bounds");
-			return false;
-		}
-		nextTile = grid.getTile((int) ((x + (width/2)) / 64),
-				(int) ((y + 1-height*2) / 64));
-		if (nextTile.getType().moveable) {
-			//y -= Clock.delta() * speed;
 			return true;
 
 		}
@@ -133,32 +173,43 @@ public abstract class GameObject {
 	}
 
 	public boolean moveDown() {
-	//	System.out.println("Down");
 
 		if (y + height + 5 > Artist.getHeight()) {
-			//ddSystem.out.println("Out of Bounds");
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x +(width/2)) / 64),
+		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
 				(int) ((((y - 1) + height) / 64)));
 		if (nextTile.getType().moveable) {
-			//y += Clock.delta() * speed;
 			return true;
 		}
 		return false;
 	}
 
+	public boolean jumpUp() {
+		if (y - height * 1.25 - 5 < 0) {
+			return false;
+		}
+		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
+				(int) ((y + 1 - height * 1.25) / 64));
+		if (nextTile.getType().moveable) {
+			return true;
+
+		}
+		return false;
+	}
+	
 	public void Draw() {
 		Artist.drawQuadTex(anim.getTex(), x, y, width, height);
 
 	}
 
-	public void setGrid(TileGrid grid){
+	public void setGrid(TileGrid grid) {
 		this.grid = grid;
 	}
-	
+
 	public abstract void update();
-	public void startAnim(){
+
+	public void startAnim() {
 		anim.update();
 	};
 

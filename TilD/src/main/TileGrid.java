@@ -63,6 +63,15 @@ public class TileGrid {
 			
 		}
 	}
+	public void resize(int sizeWidth,int sizeHeight, int translateX, int translateY){
+		for(int i =0; i<map.length;i++){
+			for(int j =0;j<map[i].length;j++){
+				map[i][j].resize(sizeWidth, sizeHeight, translateX,translateY);
+				
+			}
+			
+		}
+	}
 	
 	public void setTile(int x, int y, TileType type){
 		map[x][y] = new Tile(x*64,y*64,64,64,type);

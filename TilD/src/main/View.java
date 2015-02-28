@@ -52,6 +52,9 @@ public class View implements Runnable{
 		}
 		while (!Display.isCloseRequested()) {
 			/*Check if display was resized and scale everything?*/
+			//if(Display.wasResized()){
+			//	Controller.resize();
+			//}
 			
 			// redraw map
 			Controller.draw();

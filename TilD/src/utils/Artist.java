@@ -21,6 +21,8 @@ public class Artist {
 	/* Texture should be 64x64 for 20x15 map */
 	private static int HEIGHT = 960;
 	private static int WIDTH = 1280;
+	private static int SCALEX = 64;
+	private static int SCALEY = 64;
 
 	public static void BeginSession() {
 		Display.setTitle("TilD");
@@ -29,8 +31,9 @@ public class Artist {
 			Display.create();
 			// Make keyboard
 			Keyboard.create();
-			Keyboard.enableRepeatEvents(true);
-
+			// resize Display
+			//Display.setResizable(true);
+			
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,6 +156,22 @@ public class Artist {
 		return WIDTH;
 	}
 
+	public static int getScaleX(){
+		return SCALEX;
+	}
+	
+	public static void setScaleX(int scale){
+		SCALEX =scale;
+	}
+	
+	public static int getScaleY(){
+		return SCALEY;
+	}
+	
+	public static void setScaleY(int scale){
+		SCALEY =scale;
+	}
+	
 	/* Stubs */
 	public static void drawTriangle(float x, float y, float width, float height) {
 

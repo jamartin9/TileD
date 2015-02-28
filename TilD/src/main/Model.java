@@ -11,7 +11,8 @@ public class Model {
 	// copy of the map
 	private TileGrid grid;
 	// list of all objects that can interact (non-terrain)
-	private ArrayList<GameObject> gameObjects;
+	private ArrayList<GameObject> activeObjects;
+	private ArrayList<GameObject> inactiveObjects;
 	// current enemy that players are fighting
 	private int enemyIndex;
 	// the players index
@@ -22,7 +23,8 @@ public class Model {
 	private TileGrid topDownGrid;
 
 	public Model() {
-		gameObjects = new ArrayList<GameObject>();
+		activeObjects = new ArrayList<GameObject>();
+		inactiveObjects = new ArrayList<GameObject>();
 		enemyIndex = 0;
 		playerIndex = 0;
 		viewTopDown = true;
@@ -46,24 +48,24 @@ public class Model {
 		grid.draw();
 		// redraw objects
 		if (viewTopDown) {
-			for (GameObject e : gameObjects) {
+			for (GameObject e : activeObjects) {
 				e.Draw();
 			}
 		} else {
 			// redraw player and enemy
-			gameObjects.get(playerIndex).Draw();
-			gameObjects.get(enemyIndex).Draw();
+			activeObjects.get(playerIndex).Draw();
+			activeObjects.get(enemyIndex).Draw();
 		}
 	}
 
 	public boolean checkCollisionTopDown() {
-		for (int i = 0; i < gameObjects.size(); i++) {
+		for (int i = 0; i < activeObjects.size(); i++) {
 			// update
-			gameObjects.get(i).update();
+			activeObjects.get(i).update();
 
 			// check for collision for all enemies with player
 			if (i != playerIndex
-					&& Physics.collides(getPlayer(), gameObjects.get(i))) {
+					&& Physics.collides(getPlayer(), activeObjects.get(i))) {
 
 				// save index, grid, x, y
 				enemyIndex = i;
@@ -117,9 +119,15 @@ public class Model {
 		return false;
 	}
 	
+	public GameObject getInactive(int index){
+		return inactiveObjects.get(index);
+	}
+	
 	public void removeEnemy(){
+		// save object for later
+		inactiveObjects.add(activeObjects.get(enemyIndex));
 		// remove dead enemy
-		gameObjects.remove(enemyIndex);
+		activeObjects.remove(enemyIndex);
 		if (enemyIndex < playerIndex) {
 			playerIndex--;
 		}
@@ -128,36 +136,36 @@ public class Model {
 
 	public void addPlayer(Player player) {
 		player.setView(viewTopDown);
-		gameObjects.add(player);
-		playerIndex = gameObjects.size() - 1;
+		activeObjects.add(player);
+		playerIndex = activeObjects.size() - 1;
 	}
 
 	public void addEnemy(Enemy enemy) {
 		enemy.setView(viewTopDown);
-		gameObjects.add(enemy);
+		activeObjects.add(enemy);
 	}
 
 	public GameObject getPlayer() {
-		return gameObjects.get(playerIndex);
+		return activeObjects.get(playerIndex);
 	}
 
 	public GameObject getCurrentEnemy() {
-		return gameObjects.get(enemyIndex);
+		return activeObjects.get(enemyIndex);
 	}
 
 	public void setGrid(TileGrid newGrid) {
 		grid = newGrid;
 		// check the players view
-		if (gameObjects.get(playerIndex).getView()) {
+		if (activeObjects.get(playerIndex).getView()) {
 
 			// update all grid holders
-			for (GameObject e : gameObjects) {
+			for (GameObject e : activeObjects) {
 				e.setGrid(grid);
 			}
 		} else {
 			// update the two who are fighting grids only
-			gameObjects.get(playerIndex).setGrid(grid);
-			gameObjects.get(enemyIndex).setGrid(grid);
+			activeObjects.get(playerIndex).setGrid(grid);
+			activeObjects.get(enemyIndex).setGrid(grid);
 		}
 	}
 
