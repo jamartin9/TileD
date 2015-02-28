@@ -95,7 +95,7 @@ public abstract class GameObject {
 	}
 
 	public boolean moveUpLeft() {
-		if (x -1 > Artist.getWidth() || y - 5 < 0) {
+		if (x -1 <= 0 || y - 5 < 0) {
 			return false;
 		}
 		nextTile = grid.getTile((int) (x  / 64), (int) (y  / 64));
@@ -120,7 +120,7 @@ public abstract class GameObject {
 		}
 
 	public boolean moveDownLeft() {
-		if (y + height + 5 > Artist.getHeight() || x -1 <= 0) {
+		if (y + height + 5 > Artist.getHeight() || x - 1 <= 0) {
 			return false;
 		}
 		nextTile = grid.getTile((int) (x / 64),
