@@ -32,13 +32,13 @@ public class Artist {
 			// Make keyboard
 			Keyboard.create();
 			// resize Display
-			//Display.setResizable(true);
-			
+			Display.setResizable(true);
+			Display.setLocation(0, 0);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		// top left hand corner is 0,0
@@ -100,7 +100,6 @@ public class Artist {
 		GL11.glEnd();
 		// prevent screen tearing
 		GL11.glLoadIdentity();
-
 		
 		
 	}
@@ -170,6 +169,20 @@ public class Artist {
 	
 	public static void setScaleY(int scale){
 		SCALEY =scale;
+	}
+	public static void setHeight(int height){
+		HEIGHT=height;
+	}
+	public static void setWidth(int width){
+		WIDTH=width;
+	}
+	public static void resize(){
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		// top left hand corner is 0,0
+		GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 	
 	/* Stubs */

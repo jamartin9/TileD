@@ -85,8 +85,8 @@ public abstract class GameObject {
 		if (x + width + 5 > Artist.getWidth() || y - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + width ) / 64),
-				(int) (y  / 64));
+		nextTile = grid.getTile((int) ((x + width ) / Artist.getScaleX()),
+				(int) (y  / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 
@@ -98,7 +98,7 @@ public abstract class GameObject {
 		if (x -1 <= 0 || y - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) (x  / 64), (int) (y  / 64));
+		nextTile = grid.getTile((int) (x  / Artist.getScaleX()), (int) (y  / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 
@@ -111,8 +111,8 @@ public abstract class GameObject {
 		if (y + height + 5 > Artist.getHeight() || x + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + width+4) / 64),
-				(int) (((y + height) / 64)));
+		nextTile = grid.getTile((int) ((x + width + 2) / Artist.getScaleX()),
+				(int) (((y + height) / Artist.getScaleY())));
 		if (nextTile.getType().moveable) {
 			return true;
 		}
@@ -123,8 +123,8 @@ public abstract class GameObject {
 		if (y + height + 5 > Artist.getHeight() || x - 1 <= 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) (x / 64),
-				(int) (((y + height) / 64)));
+		nextTile = grid.getTile((int) (x / Artist.getScaleX()),
+				(int) (((y + height) / Artist.getScaleY())));
 		if (nextTile.getType().moveable) {
 			return true;
 		}
@@ -132,12 +132,11 @@ public abstract class GameObject {
 		}
 
 	public boolean moveRight() {
-
 		if (x + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width + 4)) / 64),
-				(int) ((y + (height / 2)+ (height / 4)) / 64));
+		nextTile = grid.getTile((int) ((x + (width + 4)) / Artist.getScaleX()),
+				(int) ((y + (height / 2)+ (height / 4)) / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 
@@ -150,8 +149,8 @@ public abstract class GameObject {
 		if (x - 1 <= 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 10) / 64),
-				(int) ((y + (height - 9)) / 64));
+		nextTile = grid.getTile((int) ((x + 2) / Artist.getScaleX()),
+				(int) ((y + (height - 9)) / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 		}
@@ -163,8 +162,8 @@ public abstract class GameObject {
 		if (y - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
-				(int) ((y + 1) / 64));
+		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
+				(int) ((y + 1) / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 
@@ -173,12 +172,12 @@ public abstract class GameObject {
 	}
 
 	public boolean moveDown() {
-
+		//System.out.println("Class:"+this.getClass().toString()+"\n x and y are "+x+" , "+y);
 		if (y + height + 5 > Artist.getHeight()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
-				(int) ((((y - 1) + height) / 64)));
+		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
+				(int) ((((y - 1) + height) / Artist.getScaleY())));
 		if (nextTile.getType().moveable) {
 			return true;
 		}
@@ -189,8 +188,8 @@ public abstract class GameObject {
 		if (y - height * 1.25 - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / 64),
-				(int) ((y + 1 - height * 1.25) / 64));
+		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
+				(int) ((y + 1 - height * 1.25) / Artist.getScaleY()));
 		if (nextTile.getType().moveable) {
 			return true;
 

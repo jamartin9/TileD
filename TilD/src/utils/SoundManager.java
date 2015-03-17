@@ -100,17 +100,11 @@ public class SoundManager {
 		index = (index + 1) % channels;
 
 		soundMap.put(name, handle);
-		/*
-		 * This method of loading didn't allow audio to be properly packed into
-		 * a stand alone jar because of mark/reset not supported in a inputStream.
-		 * I wrapped in a bufferedInputStream.
-		 * I then wrapped the buffered input stream in a audioStream for the wave file created.
-		 * I had to use: System.setProperty("org.lwjgl.util.Debug", "true");
-		 *  Null pointer was being thrown instead of mark/reset when lwjgl debug was false
-		 */
-		//read audio data from whatever source (file/classloader/etc.)
+		
+		// read audio data from whatever source (file/classloader/etc.)
 		InputStream audioSrc = this.getClass().getClassLoader().getResourceAsStream(path);
-		//add buffer for mark/reset support
+		
+		// add buffer for mark/reset support
 		InputStream bufferedIn = new BufferedInputStream(audioSrc);
 		AudioInputStream audioStream = null;
 		try {

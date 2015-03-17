@@ -1,5 +1,7 @@
 package main;
 
+import utils.Artist;
+
 public class TileGrid {
 
 	public Tile[][] map;
@@ -7,7 +9,7 @@ public class TileGrid {
 		map= new Tile[20][15];
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
-				map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+				map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Grass);
 			}
 		}
 	}
@@ -19,34 +21,34 @@ public class TileGrid {
 				
 				switch(newMap[j][i]){
 					case 0:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Grass);
 						break;
 					case 1:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Dirt);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Dirt);
 						break;
 					case 2:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Water);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Water);
 						break;
 					case 3:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Town);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Town);
 						break;
 					case 4:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Stone);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Stone);
 						break;
 					case 5:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Sky);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Sky);
 						break;
 					case 6:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Wood);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Wood);
 						break;
 					case 7:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Leaf);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Leaf);
 						break;
 					case 8:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.cloud);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.cloud);
 						break;
 					default:
-						map[i][j] = new Tile(i*64,j*64,64,64,TileType.Grass);
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Grass);
 						break;
 				}
 			}
@@ -63,10 +65,10 @@ public class TileGrid {
 			
 		}
 	}
-	public void resize(int sizeWidth,int sizeHeight, int translateX, int translateY){
+	public void resize(int sizeWidth,int sizeHeight){
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
-				map[i][j].resize(sizeWidth, sizeHeight, translateX,translateY);
+				map[i][j].resize(sizeWidth, sizeHeight, i*sizeWidth,j*sizeHeight);
 				
 			}
 			
@@ -74,7 +76,7 @@ public class TileGrid {
 	}
 	
 	public void setTile(int x, int y, TileType type){
-		map[x][y] = new Tile(x*64,y*64,64,64,type);
+		map[x][y] = new Tile(x*Artist.getScaleX(),y*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),type);
 	}
 	public Tile getTile(int x,int y){
 		return map[x][y];

@@ -29,6 +29,8 @@ public class Model {
 		playerIndex = 0;
 		viewTopDown = true;
 		grid = Controller.getInitMap();
+		topDownGrid = grid;
+
 	}
 
 	public void update() {
@@ -157,10 +159,11 @@ public class Model {
 		grid = newGrid;
 		// check the players view
 		if (activeObjects.get(playerIndex).getView()) {
-
+			
 			// update all grid holders
 			for (GameObject e : activeObjects) {
 				e.setGrid(grid);
+				
 			}
 		} else {
 			// update the two who are fighting grids only
@@ -180,5 +183,15 @@ public class Model {
 	public void resetTopDownGrid() {
 		// put world view back
 		grid = topDownGrid;		
+	}
+
+	public void setScale(int scaleX, int scaleY) {
+		grid.resize(scaleX,scaleY);
+		setGrid(grid);
+		topDownGrid.resize(scaleX, scaleY);
+		for (GameObject e : activeObjects) {
+			e.setWidth(scaleX);
+			e.setHeight(scaleY);
+		}
 	}
 }

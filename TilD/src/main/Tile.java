@@ -77,8 +77,8 @@ public class Tile {
 	public void resize(int sizeWidth, int sizeHeight, int translateX, int translateY) {
 		this.width=sizeWidth;
 		this.height=sizeHeight;
-		this.x += translateX;
-		this.y -= translateY;
+		this.x = translateX;
+		this.y = translateY;
 	}
 
 }

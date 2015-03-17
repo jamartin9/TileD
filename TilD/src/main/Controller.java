@@ -2,7 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
@@ -13,7 +15,6 @@ public class Controller {
 
 	private View view;
 	private static Model model;
-	/* Keep mapper if generating all at once, remove/change if not */
 	private static Mapper mapper;
 
 
@@ -88,16 +89,23 @@ public class Controller {
 
 	
 	public static void changeMap(int i) {
-		/*Change this to not make a new map each time?*/
 		switch (i) {
 			case 1:
+				if(mapper.MAP2.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP2.resize(Artist.getScaleX(), Artist.getScaleY());}
 				model.setGrid(mapper.MAP2);
 				break;
 			case 2:
+				if(mapper.MAP3.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP3.resize(Artist.getScaleX(), Artist.getScaleY());}
 				model.setGrid(mapper.MAP3);
 				break;
+			case 3:
+				if(mapper.MAP4.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP4.resize(Artist.getScaleX(), Artist.getScaleY());}
+				model.setGrid(mapper.MAP4);
+				break;
 			default:
+				if(mapper.MAP1.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP1.resize(Artist.getScaleX(), Artist.getScaleY());}
 				model.setGrid(mapper.MAP1);
+				break;
 		}
 	}
 	
@@ -157,12 +165,45 @@ public class Controller {
 		Controller boot = new Controller();
 	}
 
-	public static void resize() {
-		int newWidth = Display.getWidth();
-		int newHeight = Display.getHeight();
-		int currentHeight = Artist.getHeight();
-		int currentWidth = Artist.getWidth();
-		int scale = Artist.getScaleX();
+	public static void resize(int width, int height) {
+		int minArWidth = 20*32;
+		int minArHeight = 15*32;
+		// check the minimum
+		if(width < minArWidth || height < minArHeight){
+			try {
+				Display.setDisplayMode(new DisplayMode(1280,960));
+			} catch (LWJGLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		}
+		// set height and width based on the new width 
+		int oldWidth = Artist.getWidth();
+		int oldHeight = Artist.getHeight();
+		// the newWidth = (px difference   -  remaining pixels) + oldWidth
+		//int newWidth = ((width - oldWidth)-((width-oldWidth)%20))+oldWidth;
+		// set the height on the based on new width
+		//int newHeight = (newWidth*15)/20;
+		int newHeight = ((height - oldHeight)-((height-oldHeight)%15))+oldHeight;
+		int newWidth = (newHeight*20)/15;
+		Artist.setHeight(newHeight);
+		Artist.setWidth(newWidth);
+		Artist.setScaleX(newWidth/20);
+		Artist.setScaleY(newHeight/15);
+		model.setScale(Artist.getScaleX(),Artist.getScaleY());
+		
+		Display.setResizable(false);
+		Display.setLocation(0, 0);
+		try {
+			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Artist.resize();
+
+
 	}
 	
 
