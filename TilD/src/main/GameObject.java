@@ -172,7 +172,6 @@ public abstract class GameObject {
 	}
 
 	public boolean moveDown() {
-		//System.out.println("Class:"+this.getClass().toString()+"\n x and y are "+x+" , "+y);
 		if (y + height + 5 > Artist.getHeight()) {
 			return false;
 		}

@@ -4,7 +4,16 @@ import utils.Artist;
 
 public class TileGrid {
 
-	public Tile[][] map;
+	private Tile[][] map;
+	
+	public int getWidth() {
+		return map.length;
+	}
+
+	public int getHeight() {
+		return map[0].length;
+	}
+
 	public TileGrid() {
 		map= new Tile[20][15];
 		for(int i =0; i<map.length;i++){
@@ -15,7 +24,7 @@ public class TileGrid {
 	}
 
 	public TileGrid(int [][] newMap){
-		map= new Tile[20][15];
+		map= new Tile[newMap[0].length][newMap.length];
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
 				
@@ -78,7 +87,9 @@ public class TileGrid {
 	public void setTile(int x, int y, TileType type){
 		map[x][y] = new Tile(x*Artist.getScaleX(),y*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),type);
 	}
+	
 	public Tile getTile(int x,int y){
 		return map[x][y];
 	}
+
 }

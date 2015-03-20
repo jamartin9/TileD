@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+import utils.Artist;
 import utils.Physics;
 
 public class Model {
@@ -182,7 +183,10 @@ public class Model {
 
 	public void resetTopDownGrid() {
 		// put world view back
-		grid = topDownGrid;		
+		grid = topDownGrid;	
+		Artist.setArHeight(grid.getHeight());
+		Artist.setArWidth(grid.getWidth());
+
 	}
 
 	public void setScale(int scaleX, int scaleY) {

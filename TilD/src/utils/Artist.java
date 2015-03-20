@@ -23,6 +23,8 @@ public class Artist {
 	private static int WIDTH = 1280;
 	private static int SCALEX = 64;
 	private static int SCALEY = 64;
+	private static int arWidth = 20;
+	private static int arHeight = 15;
 
 	public static void BeginSession() {
 		Display.setTitle("TilD");
@@ -31,8 +33,6 @@ public class Artist {
 			Display.create();
 			// Make keyboard
 			Keyboard.create();
-			// resize Display
-			Display.setResizable(true);
 			Display.setLocation(0, 0);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
@@ -193,6 +193,22 @@ public class Artist {
 	public static void drawTriangleTex(float x, float y, float width,
 			float height) {
 
+	}
+
+	public static int getArWidth() {
+		return arWidth;
+	}
+
+	public static void setArWidth(int arWidth) {
+		Artist.arWidth = arWidth;
+	}
+
+	public static int getArHeight() {
+		return arHeight;
+	}
+
+	public static void setArHeight(int arHeight) {
+		Artist.arHeight = arHeight;
 	}
 
 }

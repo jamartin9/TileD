@@ -11,7 +11,6 @@ public class View implements Runnable{
 
 	// music player
 	private SoundManager sm;
-	private boolean resized = false;
 
 	public View() {
 		// setup
@@ -51,11 +50,8 @@ public class View implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Controller.resize();
 		while (!Display.isCloseRequested()) {
-			/*Check if display was resized and scale everything*/
-			if((Display.getHeight() != Artist.getHeight() || Display.getWidth() != Artist.getWidth())){
-				Controller.resize(Display.getWidth(),Display.getHeight());		
-			}
 			// redraw map
 			Controller.draw();
 
@@ -67,6 +63,7 @@ public class View implements Runnable{
 		}
 		Display.destroy();
 		Keyboard.destroy();
+		dispose();
 		System.exit(0);
 	}
 }

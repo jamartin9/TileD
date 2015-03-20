@@ -16,8 +16,7 @@ public class Controller {
 	private View view;
 	private static Model model;
 	private static Mapper mapper;
-
-
+	
 	public Controller() {
 		view = new View();
 		mapper = new Mapper();
@@ -34,7 +33,7 @@ public class Controller {
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
 		float[] enemyTime = new float[1];
 		// moving
-		enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/Goblin.png", "PNG"));
 		// set time
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
@@ -78,7 +77,6 @@ public class Controller {
 				Artist.getScaleY(), 100, 25, model.getGrid());
 
 	}
-
 	
 	public static void draw() {
 		// update the clock
@@ -86,53 +84,53 @@ public class Controller {
 		model.update();
 		model.draw();
 	}
-
 	
 	public static void changeMap(int i) {
+		// switch maps and resize
 		switch (i) {
 			case 1:
-				if(mapper.MAP2.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP2.resize(Artist.getScaleX(), Artist.getScaleY());}
-				model.setGrid(mapper.MAP2);
+				model.setGrid(mapper.getMAP2());
+				Controller.resize();
 				break;
 			case 2:
-				if(mapper.MAP3.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP3.resize(Artist.getScaleX(), Artist.getScaleY());}
-				model.setGrid(mapper.MAP3);
+				model.setGrid(mapper.getMAP5());
+				Controller.resize();
 				break;
 			case 3:
-				if(mapper.MAP4.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP4.resize(Artist.getScaleX(), Artist.getScaleY());}
-				model.setGrid(mapper.MAP4);
+				model.setGrid(mapper.getMAP3());
+				Controller.resize();
+				break;
+			case 4:
+				model.setGrid(mapper.getMAP4());
+				Controller.resize();
 				break;
 			default:
-				if(mapper.MAP1.getTile(0, 0).getWidth() != Artist.getWidth()){mapper.MAP1.resize(Artist.getScaleX(), Artist.getScaleY());}
-				model.setGrid(mapper.MAP1);
+				model.setGrid(mapper.getMAP1());
+				Controller.resize();
 				break;
 		}
 	}
 	
 	public static void topDownUpdate(){
-		
+		// if the player runs into another object
 		if(model.checkCollisionTopDown()){
 
-			// change map
+			// change map to a combat map
 			changeMap(2);
 
 			// set player and enemy to new positions, sizes and views
 			model.getPlayer().setWidth(Artist.getScaleX()*2);
 			model.getPlayer().setHeight(Artist.getScaleY()*2);
 			model.getPlayer().setX(5);
-			model.getPlayer().setY(Artist.getHeight() -model.getPlayer().getHeight() * 2);
+			model.getPlayer().setY(0);
 			model.getCurrentEnemy().setWidth(Artist.getScaleX()*2);
 			model.getCurrentEnemy().setHeight(Artist.getScaleY()*2);
 			model.getCurrentEnemy().setX(Artist.getWidth() - model.getCurrentEnemy().getWidth() - 7);
-			model.getCurrentEnemy().setY(Artist.getHeight() - model.getCurrentEnemy().getHeight() * 2);
+			model.getCurrentEnemy().setY(0);
 
 		}
 	}
-	
-	public static TileGrid getInitMap(){
-		return mapper.MAP1;
-	}
-	
+		
 	public static void sideScrollUpdate(){
 		if(model.checkCollisionSideScroll()){
 		/* kill enemy for now */
@@ -149,51 +147,37 @@ public class Controller {
 			model.removeEnemy();
 			// put view back on player
 			model.setTopDown(true);
+			// 
 			model.getPlayer().setGrid(model.getTopDownGrid());
 			model.getPlayer().setView(model.getTopDown());
 			model.getPlayer().setWidth(Artist.getScaleX());
 			model.getPlayer().setHeight(Artist.getScaleY());
 			model.resetPlayerCords();
 			model.resetTopDownGrid();
+			// resize for old grid
+			resize();
 			}
 		}
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		@SuppressWarnings("unused")
-		Controller boot = new Controller();
-	}
-
-	public static void resize(int width, int height) {
-		int minArWidth = 20*32;
-		int minArHeight = 15*32;
-		// check the minimum
-		if(width < minArWidth || height < minArHeight){
-			try {
-				Display.setDisplayMode(new DisplayMode(1280,960));
-			} catch (LWJGLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return;
-		}
+	public static void resize() {
+		//int width = Display.getDesktopDisplayMode().getWidth();
+		int height = Display.getDesktopDisplayMode().getHeight();
 		// set height and width based on the new width 
-		int oldWidth = Artist.getWidth();
+		//int oldWidth = Artist.getWidth();
 		int oldHeight = Artist.getHeight();
 		// the newWidth = (px difference   -  remaining pixels) + oldWidth
 		//int newWidth = ((width - oldWidth)-((width-oldWidth)%20))+oldWidth;
 		// set the height on the based on new width
 		//int newHeight = (newWidth*15)/20;
-		int newHeight = ((height - oldHeight)-((height-oldHeight)%15))+oldHeight;
-		int newWidth = (newHeight*20)/15;
+		int newHeight = ((height - oldHeight)-((height-oldHeight)%Artist.getArHeight()))+oldHeight;
+		int newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
 		Artist.setHeight(newHeight);
 		Artist.setWidth(newWidth);
-		Artist.setScaleX(newWidth/20);
-		Artist.setScaleY(newHeight/15);
+		Artist.setScaleX(newWidth/Artist.getArWidth());
+		Artist.setScaleY(newHeight/Artist.getArHeight());
 		model.setScale(Artist.getScaleX(),Artist.getScaleY());
 		
-		Display.setResizable(false);
 		Display.setLocation(0, 0);
 		try {
 			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));
@@ -204,6 +188,16 @@ public class Controller {
 		Artist.resize();
 
 
+	}
+	
+	public static TileGrid getInitMap(){
+		return mapper.getMAP1();
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		@SuppressWarnings("unused")
+		Controller boot = new Controller();
 	}
 	
 

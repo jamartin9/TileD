@@ -247,15 +247,4 @@ public class SoundManager {
 
 		AL10.alSourcef(source, AL10.AL_GAIN, volume / 100.0f);
 	}
-
-	public static void main(String[] args) {
-		SoundManager sm = new SoundManager(2);
-		sm.addSound("/audio/clunk.wav", "slide");
-		sm.playSound("slide");
-		// sm.stopSound();
-		sm.waitOnPlay();
-		sm.dispose();
-		System.exit(0);
-	}
-
 }
