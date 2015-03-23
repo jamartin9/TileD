@@ -89,7 +89,7 @@ public class Controller {
 		// switch maps and resize
 		switch (i) {
 			case 1:
-				model.setGrid(mapper.getMAP2());
+				model.setGrid(mapper.getMAP5());
 				Controller.resize();
 				break;
 			case 2:

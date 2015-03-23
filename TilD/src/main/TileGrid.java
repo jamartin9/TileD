@@ -56,6 +56,9 @@ public class TileGrid {
 					case 8:
 						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.cloud);
 						break;
+					case 9:
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.StoneBack);
+						break;
 					default:
 						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Grass);
 						break;
