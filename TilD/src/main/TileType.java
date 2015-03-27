@@ -11,8 +11,10 @@ public enum TileType {
 	Sky("Sky",true,false,0),
 	Wood("Wood",true,false,0),
 	Leaf("Leaves",true,false,0),
-	cloud("AngryCloud",false,false,0),
-	isoGrass("isoTileGrass", true, false, 0);
+	isoGrass("isoTileGrass", true, false, 0),
+	cloud("AngryCloud",true,false,0),
+	StoneBack("Stoneback",true,false,0),
+	ChangeMapDungeon1("Stoneback",true,true,0);
 	
 	String textureName;
 	public boolean moveable;

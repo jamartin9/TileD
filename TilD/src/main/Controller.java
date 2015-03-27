@@ -89,11 +89,11 @@ public class Controller {
 		// switch maps and resize
 		switch (i) {
 			case 1:
-				model.setGrid(mapper.getMAP2());
+				model.setGrid(mapper.getMAP5());
 				Controller.resize();
 				break;
 			case 2:
-				model.setGrid(mapper.getMAP5());
+				model.setGrid(mapper.getMAP2());
 				Controller.resize();
 				break;
 			case 3:
@@ -122,7 +122,7 @@ public class Controller {
 		if(model.checkCollisionTopDown()){
 
 			// change map to a combat map
-			changeMap(5);
+			changeMap(4);
 
 			// set player and enemy to new positions, sizes and views
 			model.getPlayer().setWidth(Artist.getScaleX());
