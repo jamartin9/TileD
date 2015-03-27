@@ -16,7 +16,7 @@ public class Controller {
 	private View view;
 	private static Model model;
 	private static Mapper mapper;
-	
+
 	public Controller() {
 		view = new View();
 		mapper = new Mapper();
@@ -38,7 +38,7 @@ public class Controller {
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
 
-		return new Enemy(enemyAnim, model.getTile(10, 10), Artist.getScaleX(), Artist.getScaleY(),
+		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(),
 				100, 7, model.getGrid());
 	}
 
@@ -73,7 +73,7 @@ public class Controller {
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
-		return new Player(playerAnimation, model.getTile(0, 0), Artist.getScaleX(),
+		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(),
 				Artist.getScaleY(), 100, 25, model.getGrid());
 
 	}
@@ -104,6 +104,10 @@ public class Controller {
 				model.setGrid(mapper.getMAP4());
 				Controller.resize();
 				break;
+			case 5:
+				model.setGrid(mapper.getMAP7());
+				Controller.resizeIso();
+				break;
 			default:
 				model.setGrid(mapper.getMAP1());
 				Controller.resize();
@@ -111,22 +115,24 @@ public class Controller {
 		}
 	}
 	
+
+
 	public static void topDownUpdate(){
 		// if the player runs into another object
 		if(model.checkCollisionTopDown()){
 
 			// change map to a combat map
-			changeMap(2);
+			changeMap(5);
 
 			// set player and enemy to new positions, sizes and views
-			model.getPlayer().setWidth(Artist.getScaleX()*2);
-			model.getPlayer().setHeight(Artist.getScaleY()*2);
-			model.getPlayer().setX(5);
-			model.getPlayer().setY(0);
-			model.getCurrentEnemy().setWidth(Artist.getScaleX()*2);
-			model.getCurrentEnemy().setHeight(Artist.getScaleY()*2);
-			model.getCurrentEnemy().setX(Artist.getWidth() - model.getCurrentEnemy().getWidth() - 7);
-			model.getCurrentEnemy().setY(0);
+			model.getPlayer().setWidth(Artist.getScaleX());
+			model.getPlayer().setHeight(Artist.getScaleY());
+			model.getPlayer().setX(Artist.getScaleX()*2 +1);
+			model.getPlayer().setY(Artist.getScaleY()*2 +1);
+			model.getCurrentEnemy().setWidth(Artist.getScaleX());
+			model.getCurrentEnemy().setHeight(Artist.getScaleY());
+			model.getCurrentEnemy().setX(Artist.getWidth() - Artist.getScaleX()*2 +1);
+			model.getCurrentEnemy().setY(Artist.getHeight() - Artist.getScaleY()*2 +1);
 
 		}
 	}
@@ -147,7 +153,7 @@ public class Controller {
 			model.removeEnemy();
 			// put view back on player
 			model.setTopDown(true);
-			// 
+			model.setIsoView(false);
 			model.getPlayer().setGrid(model.getTopDownGrid());
 			model.getPlayer().setView(model.getTopDown());
 			model.getPlayer().setWidth(Artist.getScaleX());
@@ -160,18 +166,38 @@ public class Controller {
 		}
 	}
 	
-	public static void resize() {
-		//int width = Display.getDesktopDisplayMode().getWidth();
-		int height = Display.getDesktopDisplayMode().getHeight();
-		// set height and width based on the new width 
-		//int oldWidth = Artist.getWidth();
-		int oldHeight = Artist.getHeight();
-		// the newWidth = (px difference   -  remaining pixels) + oldWidth
-		//int newWidth = ((width - oldWidth)-((width-oldWidth)%20))+oldWidth;
-		// set the height on the based on new width
-		//int newHeight = (newWidth*15)/20;
-		int newHeight = ((height - oldHeight)-((height-oldHeight)%Artist.getArHeight()))+oldHeight;
-		int newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+	public static void resize() {	
+		int size;
+		int newHeight;
+		int newWidth;
+		// pick smallest dimension of Width|Height based on screen and set size to the it
+		if(Display.getDisplayMode().getWidth() > Display.getDisplayMode().getHeight()){
+			size = Display.getDesktopDisplayMode().getHeight();
+			newHeight = size - (size %Artist.getArHeight());
+			newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+		}
+		else if(Display.getDisplayMode().getWidth() < Display.getDisplayMode().getHeight()){
+			size = Display.getDesktopDisplayMode().getWidth();
+			// (px difference   -  remaining pixels) + oldSize
+			newWidth = size - (size %Artist.getArWidth());
+			newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+		}
+		//same size
+		else{
+			// if the height/width are even (when will this happen?)
+			// pick the larger of the AR sizes
+			if(Artist.getArHeight()>Artist.getArWidth()){
+				size = Display.getDesktopDisplayMode().getHeight();
+				newHeight = size - (size %Artist.getArHeight());
+				newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+			}else{
+				size = Display.getDesktopDisplayMode().getWidth();
+				// (px difference   -  remaining pixels) + oldSize
+				newWidth = size - (size %Artist.getArWidth());
+				newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+			}
+			
+		}
 		Artist.setHeight(newHeight);
 		Artist.setWidth(newWidth);
 		Artist.setScaleX(newWidth/Artist.getArWidth());
@@ -194,6 +220,71 @@ public class Controller {
 		return mapper.getMAP1();
 	}
 	
+	private static void resizeIso() {
+		model.setIsoView(true);
+		int size;
+		int newHeight;
+		int newWidth;
+		// pick smallest dimension of Width|Height based on screen and set size to the it
+		if(Display.getDisplayMode().getWidth() > Display.getDisplayMode().getHeight()){
+			size = Display.getDesktopDisplayMode().getHeight();
+			newHeight = size - (size %Artist.getArHeight());
+			newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+		}
+		else if(Display.getDisplayMode().getWidth() < Display.getDisplayMode().getHeight()){
+			size = Display.getDesktopDisplayMode().getWidth();
+			// (px difference   -  remaining pixels) + oldSize
+			newWidth = size - (size %Artist.getArWidth());
+			newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+		}
+		//same size
+		else{
+			// if the height/width are even (when will this happen?)
+			// pick the larger of the AR sizes
+			if(Artist.getArHeight()>Artist.getArWidth()){
+				size = Display.getDesktopDisplayMode().getHeight();
+				newHeight = size - (size %Artist.getArHeight());
+				newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+			}else{
+				size = Display.getDesktopDisplayMode().getWidth();
+				// (px difference   -  remaining pixels) + oldSize
+				newWidth = size - (size %Artist.getArWidth());
+				newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+			}
+			
+		}
+		
+		int scaleX = newWidth/Artist.getArWidth();
+		int scaleY = newHeight/Artist.getArHeight();
+		
+		// specific to isoMetric
+		newWidth += scaleX/2;
+		newHeight -= (scaleY/2)*(Artist.getArHeight()-2);
+
+		// set new values 
+		Artist.setHeight(newHeight);
+		Artist.setWidth(newWidth);
+		Artist.setScaleX(scaleX);
+		Artist.setScaleY(scaleY);
+		model.setScale(Artist.getScaleX(),Artist.getScaleY());
+		
+		// set the display back location and size
+		Display.setLocation(0, 0);
+		try {
+			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// resize opengl
+		Artist.resize();
+		
+		// set the Artists width back for bounds checking
+		Artist.setWidth(newWidth-scaleX/2);
+	}
+	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unused")

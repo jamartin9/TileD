@@ -11,12 +11,13 @@ public enum TileType {
 	Sky("Sky",true,false,0),
 	Wood("Wood",true,false,0),
 	Leaf("Leaves",true,false,0),
-	cloud("AngryCloud",false,false,0);
+	cloud("AngryCloud",false,false,0),
+	isoGrass("isoTileGrass", true, false, 0);
 	
 	String textureName;
-	boolean moveable;
-	boolean hasInstance;
-	int change;
+	public boolean moveable;
+	public boolean hasInstance;
+	public int change;
 	
 	TileType(String textureName, boolean moveable, boolean hasInstance,int change){
 		this.textureName = textureName;

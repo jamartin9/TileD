@@ -40,7 +40,7 @@ public class Player extends GameObject {
 					anim.setRange(0, 0);
 				}
 				if (jumpUp()&&jumpTime <=0) {
-					y -= height * 2;
+					setY(getY()-height*2);
 					jumpTime = 5f;
 				}else{
 					jumpTime -= Clock.getDeltaTime();
@@ -61,11 +61,9 @@ public class Player extends GameObject {
 				anim.setRange(1, 3);
 			}
 			if (moveUpRight()) {
-				x += Clock.delta() * speed;
-				y -= Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() + Clock.delta() * speed);
+				setY(getY() - Clock.delta()*speed);
+	
 			}
 			
 		}
@@ -74,11 +72,9 @@ public class Player extends GameObject {
 				anim.setRange(4, 6);
 			}
 			if (moveUpLeft()) {
-				x -= Clock.delta() * speed;
-				y -= Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() - Clock.delta() * speed);
+				setY(getY() - Clock.delta()*speed);
+
 			}
 		}
 		else if(down&&left){
@@ -86,11 +82,9 @@ public class Player extends GameObject {
 				anim.setRange(4, 6);
 			}
 			if (moveDownLeft()) {
-				x -= Clock.delta() * speed;
-				y += Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() - Clock.delta() * speed);
+				setY(getY() + Clock.delta()*speed);
+
 			}
 		}
 		else if(down&&right){
@@ -98,11 +92,8 @@ public class Player extends GameObject {
 				anim.setRange(1, 3);
 			}
 			if (moveDownRight()) {
-				x += Clock.delta() * speed;
-				y += Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() + Clock.delta() * speed);
+				setY(getY() + Clock.delta()*speed);
 			}
 		}
 		else if(up){
@@ -110,10 +101,8 @@ public class Player extends GameObject {
 				anim.setRange(0, 0);
 			}
 			if (moveUp()) {
-				y -= Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setY(getY() - Clock.delta()*speed);
+				
 			}
 			
 		}
@@ -122,10 +111,8 @@ public class Player extends GameObject {
 				anim.setRange(0, 0);
 			}
 			if (moveDown()) {
-				y += Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setY(getY() + Clock.delta()*speed);
+				
 			}
 			
 		}
@@ -134,10 +121,8 @@ public class Player extends GameObject {
 				anim.setRange(4, 6);
 			}
 			if (moveLeft()) {
-				x -= Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() - Clock.delta() * speed);
+				
 			}
 			
 		}
@@ -146,10 +131,8 @@ public class Player extends GameObject {
 				anim.setRange(1, 3);
 			}
 			if (moveRight()) {
-				x += Clock.delta() * speed;
-				if (nextTile.getType().hasInstance) {
-					Controller.changeMap(nextTile.getType().change);
-				}
+				setX(getX() + Clock.delta() * speed);
+				
 			}
 			
 		}

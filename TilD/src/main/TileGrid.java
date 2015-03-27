@@ -56,6 +56,9 @@ public class TileGrid {
 					case 8:
 						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.cloud);
 						break;
+					case 9:
+						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.isoGrass);
+						break;
 					default:
 						map[i][j] = new Tile(i*Artist.getScaleX(),j*Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY(),TileType.Grass);
 						break;
@@ -74,6 +77,7 @@ public class TileGrid {
 			
 		}
 	}
+	
 	public void resize(int sizeWidth,int sizeHeight){
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
@@ -90,6 +94,16 @@ public class TileGrid {
 	
 	public Tile getTile(int x,int y){
 		return map[x][y];
+	}
+
+	public void setView(boolean b) {
+		for(int i =0; i<map.length;i++){
+			for(int j =0;j<map[i].length;j++){
+				map[i][j].setIso(b);
+				
+			}
+			
+		}		
 	}
 
 }

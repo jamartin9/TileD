@@ -9,6 +9,7 @@ public class Tile {
 	private float x, y, width, height;
 	private Texture texture;
 	private TileType type;
+	private boolean viewIso;
 
 	public Tile(float x, float y, float width, float height, TileType type) {
 		setX(x);
@@ -18,14 +19,19 @@ public class Tile {
 		this.setType(type);
 		this.setTexture(Artist.loadTexture("images/" + type.textureName
 				+ ".png", "PNG"));
+		viewIso = false;
 	}
 
 	public void draw() {
-		Artist.drawQuadTex(texture, x, y, width, height);
+		Artist.drawQuadTex(texture, getX(), getY(), width, height);
 
 	}
 
 	/* Getters & Setters */
+	public void setIso(boolean isoView) {
+		viewIso = isoView;
+	}
+
 	public float getWidth() {
 		return width;
 	}
@@ -43,7 +49,19 @@ public class Tile {
 	}
 
 	public float getY() {
-		return y;
+		if (viewIso) {
+			// return the height translated up 1/2 the scale if not in the first
+			// row of tiles
+			if (y == 0) {
+				return y;
+			} else {
+				// half the image is over laping with 1 px
+				int HeightOverLapping = ((Artist.getScaleY()) / 2);
+				return y -(y/Artist.getScaleY())* HeightOverLapping;
+			}
+		} else {
+			return y;
+		}
 	}
 
 	public void setY(float y) {
@@ -51,7 +69,14 @@ public class Tile {
 	}
 
 	public float getX() {
-		return x;
+		if (viewIso) {
+			// return x translated right by half the width if the y row is odd
+			return x + ((y / Artist.getScaleY()) % 2)
+					* (Artist.getScaleX() / 2);
+		} else {
+			return x;
+
+		}
 	}
 
 	public void setX(float x) {
@@ -74,9 +99,10 @@ public class Tile {
 		this.texture = texture;
 	}
 
-	public void resize(int sizeWidth, int sizeHeight, int translateX, int translateY) {
-		this.width=sizeWidth;
-		this.height=sizeHeight;
+	public void resize(int sizeWidth, int sizeHeight, int translateX,
+			int translateY) {
+		this.width = sizeWidth;
+		this.height = sizeHeight;
 		this.x = translateX;
 		this.y = translateY;
 	}

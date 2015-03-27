@@ -1,18 +1,19 @@
 package main;
 
 import utils.Artist;
+import utils.Physics;
 
 public abstract class GameObject {
 
 	private TileGrid grid;
 	protected Animation anim;
-	protected float x;
-	protected float y;
+	private float x;
+	private float y;
 	private int width;
 	protected int height;
 	protected int speed;
-	protected Tile nextTile; // Tile that will be moved to
 	protected boolean viewTopDown;
+	protected boolean viewIso;
 	private int health;
 
 	public GameObject(Animation anim, Tile startTile, int width, int height,
@@ -25,6 +26,11 @@ public abstract class GameObject {
 		this.speed = speed;
 		this.grid = grid;
 		this.health = health;
+		viewIso = false;
+	}
+
+	public void setIso(boolean isoView) {
+		viewIso = isoView;
 	}
 
 	public void setView(boolean viewTopDown) {
@@ -37,6 +43,10 @@ public abstract class GameObject {
 
 	public int getHealth() {
 		return health;
+	}
+
+	public TileGrid getGrid() {
+		return grid;
 	}
 
 	public boolean getView() {
@@ -79,125 +89,105 @@ public abstract class GameObject {
 		this.width = width;
 	}
 
-	/*TODO: Move hit boxes*/
-	
+	/* TODO: Move hit boxes, change for isoView, watch 1 tile hb if the width/height != scaleX/scaleY respectively*/
+
 	public boolean moveUpRight() {
-		if (x + width + 5 > Artist.getWidth() || y - 5 < 0) {
+		if (getX() + width + 5 > Artist.getWidth() || getY() - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + width ) / Artist.getScaleX()),
-				(int) (y  / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
-
+		if (Physics.collidesTile(getX()+4, getY()-4, getWidth() * 2, getHeight()*2, getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean moveUpLeft() {
-		if (x -1 <= 0 || y - 5 < 0) {
+		if (getX() - 5 <= 0 || getY() - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) (x  / Artist.getScaleX()), (int) (y  / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
-
+		if (Physics.collidesTile(getX()-4, getY()-4, getWidth()*2, getHeight()*2, getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean moveDownRight() {
 
-		if (y + height + 5 > Artist.getHeight() || x + width + 5 > Artist.getWidth()) {
+		if (getY() + height + 5 > Artist.getHeight()
+				|| getX() + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + width + 2) / Artist.getScaleX()),
-				(int) (((y + height) / Artist.getScaleY())));
-		if (nextTile.getType().moveable) {
-			return true;
+		if (Physics.collidesTile(getX(), getY(), getWidth()*2, getHeight()*2, getGrid())) {
+			return false;
 		}
-		return false;	
-		}
+		return true;
+	}
 
 	public boolean moveDownLeft() {
-		if (y + height + 5 > Artist.getHeight() || x - 1 <= 0) {
+		if (getY() + height + 5 > Artist.getHeight() || getX() - 5 <= 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) (x / Artist.getScaleX()),
-				(int) (((y + height) / Artist.getScaleY())));
-		if (nextTile.getType().moveable) {
-			return true;
+		if (Physics.collidesTile(getX()-4, getY(), getWidth()*2, getHeight()*2, getGrid())) {
+			return false;
 		}
-		return false;
-		}
+		return true;
+	}
 
 	public boolean moveRight() {
-		if (x + width + 5 > Artist.getWidth()) {
+		if (getX() + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width + 4)) / Artist.getScaleX()),
-				(int) ((y + (height / 2)+ (height / 4)) / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
-
+		if (Physics.collidesTile(getX() + width +4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean moveLeft() {
 
-		if (x - 1 <= 0) {
+		if (getX() - 5 <= 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + 2) / Artist.getScaleX()),
-				(int) ((y + (height - 9)) / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
+		if (Physics.collidesTile(getX() - 4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean moveUp() {
 
-		if (y - 5 < 0) {
+		if (getY() - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
-				(int) ((y + 1) / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
-
+		if (Physics.collidesTile( getX()+width/2, getY() - 4, getWidth(), 4, getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean moveDown() {
-		if (y + height + 5 > Artist.getHeight()) {
+		if (getY() + height + 5 > Artist.getHeight()) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
-				(int) ((((y - 1) + height) / Artist.getScaleY())));
-		if (nextTile.getType().moveable) {
-			return true;
+		if (Physics.collidesTile(getX()+width/2, getY()+height+4, getWidth(), 4, getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean jumpUp() {
-		if (y - height * 1.25 - 5 < 0) {
+		if (getY() - height * 1.25 - 5 < 0) {
 			return false;
 		}
-		nextTile = grid.getTile((int) ((x + (width / 2)) / Artist.getScaleX()),
-				(int) ((y + 1 - height * 1.25) / Artist.getScaleY()));
-		if (nextTile.getType().moveable) {
-			return true;
-
+		if (Physics.collidesTile(getX(), getY() - height * 1.25f, getWidth(),
+				(int) (getHeight() * 1.25), getGrid())) {
+			return false;
 		}
-		return false;
+		return true;
 	}
-	
+
 	public void Draw() {
-		Artist.drawQuadTex(anim.getTex(), x, y, width, height);
+		Artist.drawQuadTex(anim.getTex(), getX(), getY(), width, height);
 
 	}
 

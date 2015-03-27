@@ -68,7 +68,7 @@ public class Model {
 
 			// check for collision for all enemies with player
 			if (i != playerIndex
-					&& Physics.collides(getPlayer(), activeObjects.get(i))) {
+					&& Physics.collidesObject(getPlayer(), activeObjects.get(i))) {
 
 				// save index, grid, x, y
 				enemyIndex = i;
@@ -115,7 +115,7 @@ public class Model {
 		Physics.applyGravity(getCurrentEnemy());
 
 		// check collision
-		if (Physics.collides(getPlayer(), getCurrentEnemy())) {
+		if (Physics.collidesObject(getPlayer(), getCurrentEnemy())) {
 			return true;
 
 		}
@@ -192,10 +192,23 @@ public class Model {
 	public void setScale(int scaleX, int scaleY) {
 		grid.resize(scaleX,scaleY);
 		setGrid(grid);
-		topDownGrid.resize(scaleX, scaleY);
 		for (GameObject e : activeObjects) {
 			e.setWidth(scaleX);
 			e.setHeight(scaleY);
+		}
+	}
+
+	public void setIsoView(boolean b) {
+		if(viewTopDown){
+			grid.setView(b);
+			for (GameObject e : activeObjects){
+				e.setIso(b);
+			}
+		}else{
+			grid.setView(b);
+			activeObjects.get(playerIndex).setIso(b);
+			activeObjects.get(enemyIndex).setIso(b);
+
 		}
 	}
 }

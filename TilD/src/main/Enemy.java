@@ -47,7 +47,7 @@ public class Enemy extends GameObject {
 		switch (dir) {
 		case 0:
 			if (moveLeft()) {
-				x -= Clock.delta() * speed;
+				setX(getX() - Clock.delta() * speed);
 				break;
 			} else {
 				this.dir = Clock.getRandom(4);
@@ -56,7 +56,7 @@ public class Enemy extends GameObject {
 		case 1:
 
 			if (moveUp()) {
-				y -= Clock.delta() * speed;
+				setY(getY() - Clock.delta()*speed);
 				break;
 			} else {
 				this.dir = Clock.getRandom(4);
@@ -64,7 +64,7 @@ public class Enemy extends GameObject {
 			}
 		case 2:
 			if (moveRight()) {
-				x += Clock.delta() * speed;
+				setX(getX() + Clock.delta() * speed);
 				break;
 			} else {
 				this.dir = Clock.getRandom(4);
@@ -72,7 +72,7 @@ public class Enemy extends GameObject {
 			}
 		case 3:
 			if (moveDown()) {
-				y += Clock.delta() * speed;
+				setY(getY() + Clock.delta()*speed);
 				break;
 			} else {
 				this.dir = Clock.getRandom(4);
