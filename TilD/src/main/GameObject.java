@@ -95,7 +95,7 @@ public abstract class GameObject {
 		if (getX() + width + 5 > Artist.getWidth() || getY() - 5 < 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX()+4, getY()-4, getWidth() * 2, getHeight()*2, getGrid())) {
+		if (Physics.collidesTile(getX()+4, getY()-4, getWidth() * 2, getHeight()*2, getGrid(), this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -105,7 +105,7 @@ public abstract class GameObject {
 		if (getX() - 5 <= 0 || getY() - 5 < 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX()-4, getY()-4, getWidth()*2, getHeight()*2, getGrid())) {
+		if (Physics.collidesTile(getX()-4, getY()-4, getWidth()*2, getHeight()*2, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -117,7 +117,7 @@ public abstract class GameObject {
 				|| getX() + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		if (Physics.collidesTile(getX(), getY(), getWidth()*2, getHeight()*2, getGrid())) {
+		if (Physics.collidesTile(getX(), getY(), getWidth()*2, getHeight()*2, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -127,7 +127,7 @@ public abstract class GameObject {
 		if (getY() + height + 5 > Artist.getHeight() || getX() - 5 <= 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX()-4, getY(), getWidth()*2, getHeight()*2, getGrid())) {
+		if (Physics.collidesTile(getX()-4, getY(), getWidth()*2, getHeight()*2, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -137,7 +137,7 @@ public abstract class GameObject {
 		if (getX() + width + 5 > Artist.getWidth()) {
 			return false;
 		}
-		if (Physics.collidesTile(getX() + width +4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid())) {
+		if (Physics.collidesTile(getX() + width +4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -148,7 +148,7 @@ public abstract class GameObject {
 		if (getX() - 5 <= 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX() - 4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid())) {
+		if (Physics.collidesTile(getX() - 4, getY()+height/2+height/4+height/8, getWidth(), getHeight(), getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -159,7 +159,7 @@ public abstract class GameObject {
 		if (getY() - 5 < 0) {
 			return false;
 		}
-		if (Physics.collidesTile( getX()+width/2, getY() - 4, getWidth(), 4, getGrid())) {
+		if (Physics.collidesTile( getX()+width/2, getY() - 4, getWidth(), 4, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -169,18 +169,18 @@ public abstract class GameObject {
 		if (getY() + height + 5 > Artist.getHeight()) {
 			return false;
 		}
-		if (Physics.collidesTile(getX()+width/2, getY()+height+4, getWidth(), 4, getGrid())) {
+		if (Physics.collidesTile(getX()+width/2, getY()+height+4, getWidth(), 4, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
 	}
 
 	public boolean jumpUp() {
+		System.out.println(this.getClass().toString());
 		if (getY() - height * 1.25 - 5 < 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX(), getY() - height * 1.25f, getWidth(),
-				(int) (getHeight() * 1.25), getGrid())) {
+		if (Physics.collidesTile(getX(), getY() - height * 1.25f, getWidth(),(int) (getHeight() * 1.25), getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;

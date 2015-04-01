@@ -43,7 +43,7 @@ public class Enemy extends GameObject {
 				dir =0;
 			}
 		}
-
+		
 		switch (dir) {
 		case 0:
 			if (moveLeft()) {

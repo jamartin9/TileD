@@ -175,12 +175,15 @@ public class Controller {
 			size = Display.getDesktopDisplayMode().getHeight();
 			newHeight = size - (size %Artist.getArHeight());
 			newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+			if(newWidth > Display.getDesktopDisplayMode().getWidth()){newWidth=Display.getDesktopDisplayMode().getWidth() - (Display.getDesktopDisplayMode().getWidth() %Artist.getArWidth());}
 		}
 		else if(Display.getDisplayMode().getWidth() < Display.getDisplayMode().getHeight()){
 			size = Display.getDesktopDisplayMode().getWidth();
 			// (px difference   -  remaining pixels) + oldSize
 			newWidth = size - (size %Artist.getArWidth());
 			newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+			if(newHeight > Display.getDesktopDisplayMode().getHeight()){newHeight=Display.getDesktopDisplayMode().getHeight() - (Display.getDesktopDisplayMode().getHeight() %Artist.getArHeight());}
+
 		}
 		//same size
 		else{
@@ -190,11 +193,14 @@ public class Controller {
 				size = Display.getDesktopDisplayMode().getHeight();
 				newHeight = size - (size %Artist.getArHeight());
 				newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+				if(newWidth > Display.getDesktopDisplayMode().getWidth()){newWidth=Display.getDesktopDisplayMode().getWidth() - (Display.getDesktopDisplayMode().getWidth() %Artist.getArWidth());}
 			}else{
 				size = Display.getDesktopDisplayMode().getWidth();
 				// (px difference   -  remaining pixels) + oldSize
 				newWidth = size - (size %Artist.getArWidth());
 				newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+				if(newHeight > Display.getDesktopDisplayMode().getHeight()){newHeight=Display.getDesktopDisplayMode().getHeight() - (Display.getDesktopDisplayMode().getHeight() %Artist.getArHeight());}
+
 			}
 			
 		}
@@ -230,12 +236,14 @@ public class Controller {
 			size = Display.getDesktopDisplayMode().getHeight();
 			newHeight = size - (size %Artist.getArHeight());
 			newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+			if(newWidth > Display.getDesktopDisplayMode().getWidth()){newWidth=Display.getDesktopDisplayMode().getWidth() - (Display.getDesktopDisplayMode().getWidth() %Artist.getArWidth());}
 		}
 		else if(Display.getDisplayMode().getWidth() < Display.getDisplayMode().getHeight()){
 			size = Display.getDesktopDisplayMode().getWidth();
 			// (px difference   -  remaining pixels) + oldSize
 			newWidth = size - (size %Artist.getArWidth());
 			newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+			if(newHeight > Display.getDesktopDisplayMode().getHeight()){newHeight=Display.getDesktopDisplayMode().getHeight() - (Display.getDesktopDisplayMode().getHeight() %Artist.getArHeight());}
 		}
 		//same size
 		else{
@@ -245,11 +253,13 @@ public class Controller {
 				size = Display.getDesktopDisplayMode().getHeight();
 				newHeight = size - (size %Artist.getArHeight());
 				newWidth = (newHeight*Artist.getArWidth())/Artist.getArHeight();
+				if(newWidth > Display.getDesktopDisplayMode().getWidth()){newWidth=Display.getDesktopDisplayMode().getWidth() - (Display.getDesktopDisplayMode().getWidth() %Artist.getArWidth());}
 			}else{
 				size = Display.getDesktopDisplayMode().getWidth();
 				// (px difference   -  remaining pixels) + oldSize
 				newWidth = size - (size %Artist.getArWidth());
 				newHeight = (newWidth*Artist.getArHeight())/Artist.getArWidth();
+				if(newHeight > Display.getDesktopDisplayMode().getHeight()){newHeight=Display.getDesktopDisplayMode().getHeight() - (Display.getDesktopDisplayMode().getHeight() %Artist.getArHeight());}
 			}
 			
 		}

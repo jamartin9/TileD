@@ -28,7 +28,7 @@ public class Physics {
 		
 	}
 
-	public static boolean collidesTile(float x, float y, int width, int height, TileGrid grid) {
+	public static boolean collidesTile(float x, float y, int width, int height, TileGrid grid, boolean player) {
 		//TODO: use the actual size of tiles
 		int tileWidth = Artist.getScaleX();
 		int tileHeight = Artist.getScaleY();
@@ -47,7 +47,7 @@ public class Physics {
 				// get the tile
 				nextTile = grid.getTile(((int) x+offX)/tileWidth, ((int)y+offY)/tileHeight);
 				// check for change
-				if(nextTile.getType().hasInstance){
+				if(player && nextTile.getType().hasInstance){
 					Controller.changeMap(nextTile.getType().change);
 					return false;
 				}

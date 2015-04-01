@@ -27,6 +27,7 @@ public class Artist {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create();
+			Display.setFullscreen(true);
 			// Make keyboard
 			Keyboard.create();
 			Display.setLocation(0, 0);
