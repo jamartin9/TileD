@@ -50,23 +50,16 @@ public class Model {
 	public void draw() {
 		grid.draw();
 		// redraw objects
-		if (viewTopDown) {
-			for (GameObject e : activeObjects) {
-				e.Draw();
-			}
-		} else {
-			// redraw player and enemy
-			activeObjects.get(playerIndex).Draw();
-			activeObjects.get(enemyIndex).Draw();
+		for (GameObject e : activeObjects) {
+			e.Draw();
 		}
+	
 	}
 
 	public boolean checkCollisionTopDown() {
-		System.out.println(activeObjects.size()+" player: "+playerIndex);
 		for (int i = 0; i < activeObjects.size(); i++) {
 			// update
 			activeObjects.get(i).update();
-			System.out.println(activeObjects.size()+" player: "+i);
 
 			// check for collision for all enemies with player
 			if (i != playerIndex && Physics.collidesObject(getPlayer(), activeObjects.get(i))) {
@@ -109,40 +102,50 @@ public class Model {
 
 		// update player and opponent respectively
 		getPlayer().update();
-		getCurrentEnemy().update();
+		if(enemyIndex != -1){
+			getCurrentEnemy().update();
+			// make objects fall
+			Physics.applyGravity(getPlayer());
+			Physics.applyGravity(getCurrentEnemy());
 
-		// make objects fall
-		Physics.applyGravity(getPlayer());
-		Physics.applyGravity(getCurrentEnemy());
-
-		// check collision
-		if (Physics.collidesObject(getPlayer(), getCurrentEnemy())) {
-			return true;
-
+			// check collision
+			if (Physics.collidesObject(getPlayer(), getCurrentEnemy())) {return true;}
+		}else{
+			// make objects fall
+			Physics.applyGravity(getPlayer());
 		}
 		return false;
 	}
 	
-	public GameObject getInactive(int index){
-		return inactiveObjects.get(index);
+	public void addInactives(){
+		for(GameObject e:inactiveObjects){
+			activeObjects.add(e);
+		}
 	}
 	
-	public void removeEnemy(){
-		// save object for later
-		inactiveObjects.add(activeObjects.get(enemyIndex));
-
+	public void removeCurrentEnemy(){
 		// remove dead enemy
 		activeObjects.remove(enemyIndex);
 		if (enemyIndex < playerIndex) {
 			playerIndex--;
 		}
-
 		activeObjects.trimToSize();
-		System.out.println(activeObjects.size());
-
-		enemyIndex = 0;
+		enemyIndex = -1;
 	}
 
+	public void makeEnemiesInactive(){
+		for(int i =0; i<activeObjects.size();i++){
+			if(i != playerIndex){
+				inactiveObjects.add(activeObjects.get(i));
+				activeObjects.remove(i);
+				if (enemyIndex < playerIndex) {
+					playerIndex--;
+				}
+			}
+		}
+		activeObjects.trimToSize();
+	}
+	
 	public void addPlayer(Player player) {
 		player.setView(viewTopDown);
 		activeObjects.add(player);
@@ -152,31 +155,26 @@ public class Model {
 	public void addEnemy(Enemy enemy) {
 		enemy.setView(viewTopDown);
 		activeObjects.add(enemy);
+		enemyIndex=activeObjects.size()-1;
 	}
 
-	public GameObject getPlayer() {
-		return activeObjects.get(playerIndex);
+	public Player getPlayer() {
+		return (Player) activeObjects.get(playerIndex);
 	}
 
-	public GameObject getCurrentEnemy() {
-		return activeObjects.get(enemyIndex);
+	public Enemy getCurrentEnemy() {
+		if (enemyIndex == -1){return null;}
+		else{return (Enemy) activeObjects.get(enemyIndex);}
 	}
 
 	public void setGrid(TileGrid newGrid) {
 		grid = newGrid;
-		// check the players view
-		if (activeObjects.get(playerIndex).getView()) {
+		// update all active grid holders
+		for (GameObject e : activeObjects) {
+			e.setGrid(grid);
 			
-			// update all grid holders
-			for (GameObject e : activeObjects) {
-				e.setGrid(grid);
-				
-			}
-		} else {
-			// update the two who are fighting grids only
-			activeObjects.get(playerIndex).setGrid(grid);
-			activeObjects.get(enemyIndex).setGrid(grid);
 		}
+
 	}
 
 	public Tile getTile(int x, int y) {
@@ -205,16 +203,8 @@ public class Model {
 	}
 
 	public void setIsoView(boolean b) {
-		if(viewTopDown){
-			grid.setView(b);
 			for (GameObject e : activeObjects){
 				e.setIso(b);
 			}
-		}else{
-			grid.setView(b);
-			activeObjects.get(playerIndex).setIso(b);
-			activeObjects.get(enemyIndex).setIso(b);
-
-		}
 	}
 }

@@ -38,8 +38,7 @@ public class Controller {
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
 
-		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(),
-				100, 7, model.getGrid());
+		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 4);
 	}
 
 	private Player createPlayer() {
@@ -73,8 +72,7 @@ public class Controller {
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
-		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(),
-				Artist.getScaleY(), 100, 25, model.getGrid());
+		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 25, model.getGrid());
 
 	}
 	
@@ -92,7 +90,8 @@ public class Controller {
 			// switch maps and resize
 			switch (changeMaps) {
 				case 1:
-					model.removeEnemy();
+					// update each maps conditions
+					model.makeEnemiesInactive();
 					model.setGrid(mapper.getMAP5());
 					Controller.resize();
 					break;
@@ -126,25 +125,11 @@ public class Controller {
 		changeMaps = i;
 	}
 	
-
-
 	public static void topDownUpdate(){
 		// if the player runs into another object
 		if(model.checkCollisionTopDown()){
-
 			// change map to a combat map
-			changeMap(4);
-
-			// set player and enemy to new positions, sizes and views
-			model.getPlayer().setWidth(Artist.getScaleX());
-			model.getPlayer().setHeight(Artist.getScaleY());
-			model.getPlayer().setX(Artist.getScaleX()*2 +1);
-			model.getPlayer().setY(Artist.getScaleY()*2 +1);
-			model.getCurrentEnemy().setWidth(Artist.getScaleX());
-			model.getCurrentEnemy().setHeight(Artist.getScaleY());
-			model.getCurrentEnemy().setX(Artist.getWidth() - Artist.getScaleX()*2 +1);
-			model.getCurrentEnemy().setY(Artist.getHeight() - Artist.getScaleY()*2 +1);
-
+			changeMap(model.getCurrentEnemy().getcmbMap());
 		}
 	}
 		
@@ -161,7 +146,7 @@ public class Controller {
 
 		// if enemy died
 		else if (model.getCurrentEnemy().getHealth() <= 0) {
-			model.removeEnemy();
+			model.removeCurrentEnemy();
 			// put view back on player
 			model.setTopDown(true);
 			model.getPlayer().setGrid(model.getTopDownGrid());

@@ -7,11 +7,13 @@ public class Enemy extends GameObject {
 	// direction to start moving
 	private int dir;
 	private boolean firstRun;
-
+	private int cmbMap;
+	
 	public Enemy(Animation anim, Tile startTile, int width, int height,
-			int health, int speed, TileGrid grid) {
+			int health, int speed, TileGrid grid, int cmbMap) {
 		super(anim, startTile, width, height, health, speed, grid);
 		firstRun = true;
+		this.cmbMap = cmbMap;
 		anim.setRange(0, 0);
 	}
 
@@ -27,6 +29,10 @@ public class Enemy extends GameObject {
 		}
 	}
 
+	public int getcmbMap(){
+		return cmbMap;
+	}
+	
 	// AI
 	/* TODO: Change movement Logic */
 	private void wander(int dir) {

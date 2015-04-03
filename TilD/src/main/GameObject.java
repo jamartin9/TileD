@@ -113,8 +113,7 @@ public abstract class GameObject {
 
 	public boolean moveDownRight() {
 
-		if (getY() + height + 5 > Artist.getHeight()
-				|| getX() + width + 5 > Artist.getWidth()) {
+		if (getY() + height + 5 > Artist.getHeight() || getX() + width + 5 > Artist.getWidth()) {
 			return false;
 		}
 		if (Physics.collidesTile(getX(), getY(), getWidth()*2, getHeight()*2, getGrid(),this.getClass().toString().equals("class main.Player"))) {
@@ -176,7 +175,6 @@ public abstract class GameObject {
 	}
 
 	public boolean jumpUp() {
-		System.out.println(this.getClass().toString());
 		if (getY() - height * 1.25 - 5 < 0) {
 			return false;
 		}

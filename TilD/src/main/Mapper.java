@@ -4,25 +4,14 @@ import utils.Artist;
 
 public class Mapper {
 	
-	private TileGrid MAP1 ;
-	private TileGrid MAP2 ;
-	private TileGrid MAP3 ;
-	private TileGrid MAP4 ;
-	private TileGrid MAP5 ;
+	private TileGrid MAP1 =null;
+	private TileGrid MAP2 =null;
+	private TileGrid MAP3 =null;
+	private TileGrid MAP4 =null;
+	private TileGrid MAP5 =null;
 	//iso map
-	private TileGrid MAP7 ;
+	private TileGrid MAP7 =null;
 	
-	public Mapper(){
-
-		makeMAP1();	
-		makeMAP2();		
-		makeMAP3();
-		makeMAP4();
-		makeMAP5();
-		makeMAP7();
-
-
-	}
 	
 	private void makeMAP5(){
 		MAP5 = new TileGrid(new int [][]{
@@ -47,12 +36,18 @@ public class Mapper {
 	public TileGrid getMAP5(){
 		Artist.setArHeight(15);
 		Artist.setArWidth(30);
+		if(MAP5 == null){
+			makeMAP5();
+		}
 		return MAP5;
 	}
 
 	public TileGrid getMAP1() {
 		Artist.setArHeight(15);
 		Artist.setArWidth(20);
+		if(MAP1 == null){
+			makeMAP1();
+		}
 		return MAP1;
 	}
 
@@ -79,6 +74,9 @@ public class Mapper {
 	public TileGrid getMAP2() {
 		Artist.setArHeight(15);
 		Artist.setArWidth(20);
+		if(MAP2 == null){
+			makeMAP2();
+		}
 		return MAP2;
 	}
 
@@ -105,6 +103,9 @@ public class Mapper {
 	public TileGrid getMAP3() {
 		Artist.setArHeight(15);
 		Artist.setArWidth(20);
+		if(MAP3 == null){
+			makeMAP3();
+		}
 		return MAP3;
 	}
 
@@ -131,6 +132,9 @@ public class Mapper {
 	public TileGrid getMAP4() {
 		Artist.setArHeight(15);
 		Artist.setArWidth(20);
+		if(MAP4 == null){
+			makeMAP4();
+		}
 		return MAP4;
 	}
 
@@ -191,6 +195,9 @@ public class Mapper {
 	public TileGrid getMAP7() {
 		Artist.setArHeight(27);
 		Artist.setArWidth(22);
+		if(MAP7 == null){
+			makeMAP7();
+		}
 		return MAP7;
 	}
 
