@@ -62,13 +62,14 @@ public class Model {
 	}
 
 	public boolean checkCollisionTopDown() {
+		System.out.println(activeObjects.size()+" player: "+playerIndex);
 		for (int i = 0; i < activeObjects.size(); i++) {
 			// update
 			activeObjects.get(i).update();
+			System.out.println(activeObjects.size()+" player: "+i);
 
 			// check for collision for all enemies with player
-			if (i != playerIndex
-					&& Physics.collidesObject(getPlayer(), activeObjects.get(i))) {
+			if (i != playerIndex && Physics.collidesObject(getPlayer(), activeObjects.get(i))) {
 
 				// save index, grid, x, y
 				enemyIndex = i;
@@ -129,11 +130,16 @@ public class Model {
 	public void removeEnemy(){
 		// save object for later
 		inactiveObjects.add(activeObjects.get(enemyIndex));
+
 		// remove dead enemy
 		activeObjects.remove(enemyIndex);
 		if (enemyIndex < playerIndex) {
 			playerIndex--;
 		}
+
+		activeObjects.trimToSize();
+		System.out.println(activeObjects.size());
+
 		enemyIndex = 0;
 	}
 

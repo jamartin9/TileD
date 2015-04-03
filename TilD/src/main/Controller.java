@@ -79,40 +79,51 @@ public class Controller {
 	}
 	
 	public static void draw() {
+		updateChanges();
 		// update the clock
 		Clock.update();
 		model.update();
 		model.draw();
 	}
 	
-	public static void changeMap(int i) {
-		// switch maps and resize
-		switch (i) {
-			case 1:
-				model.setGrid(mapper.getMAP5());
-				Controller.resize();
-				break;
-			case 2:
-				model.setGrid(mapper.getMAP2());
-				Controller.resize();
-				break;
-			case 3:
-				model.setGrid(mapper.getMAP3());
-				Controller.resize();
-				break;
-			case 4:
-				model.setGrid(mapper.getMAP4());
-				Controller.resize();
-				break;
-			case 5:
-				model.setGrid(mapper.getMAP7());
-				Controller.resizeIso();
-				break;
-			default:
-				model.setGrid(mapper.getMAP1());
-				Controller.resize();
-				break;
+	private static int changeMaps = -1;
+	private static void updateChanges(){
+		if(changeMaps != -1){
+			// switch maps and resize
+			switch (changeMaps) {
+				case 1:
+					model.removeEnemy();
+					model.setGrid(mapper.getMAP5());
+					Controller.resize();
+					break;
+				case 2:
+					model.setGrid(mapper.getMAP2());
+					Controller.resize();
+					break;
+				case 3:
+					model.setGrid(mapper.getMAP3());
+					Controller.resize();
+					break;
+				case 4:
+					model.setGrid(mapper.getMAP4());
+					Controller.resize();
+					break;
+				case 5:
+					model.setGrid(mapper.getMAP7());
+					Controller.resizeIso();
+					break;
+				default:
+					model.setGrid(mapper.getMAP1());
+					Controller.resize();
+					break;
+			}
 		}
+		
+		changeMaps = -1;
+	}
+	
+	public static void changeMap(int i) {
+		changeMaps = i;
 	}
 	
 
@@ -153,7 +164,6 @@ public class Controller {
 			model.removeEnemy();
 			// put view back on player
 			model.setTopDown(true);
-			model.setIsoView(false);
 			model.getPlayer().setGrid(model.getTopDownGrid());
 			model.getPlayer().setView(model.getTopDown());
 			model.getPlayer().setWidth(Artist.getScaleX());
