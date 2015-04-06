@@ -101,6 +101,7 @@ public class Controller {
 					break;
 				case 3:
 					model.setGrid(mapper.getMAP3());
+					model.getTile(8,7);
 					Controller.resize();
 					break;
 				case 4:
