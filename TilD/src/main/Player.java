@@ -1,7 +1,6 @@
 package main;
 
 import org.lwjgl.input.Keyboard;
-
 import utils.Clock;
 
 public class Player extends GameObject {
@@ -10,7 +9,7 @@ public class Player extends GameObject {
 	private boolean right =false;
 	private boolean up =false;
 	private boolean down =false;
-
+	
 	
 	public Player(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
@@ -18,7 +17,6 @@ public class Player extends GameObject {
 		anim.setRange(0, 0);
 
 	}
-
 	
 	public void update() {
 		/*Get keys pressed*/
@@ -140,6 +138,9 @@ public class Player extends GameObject {
 		left= false;
 		up=false;
 		down =false;
+		// update text box
+		getText().setX(getX());
+		getText().setY(getY());
 	}
 
 }

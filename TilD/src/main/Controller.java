@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
@@ -23,6 +24,8 @@ public class Controller {
 		model = new Model();
 		model.addEnemy(createEnemyGoblin());
 		model.addPlayer(createPlayer());
+		model.getPlayer().createTextBox(12, false, Color.white, "Sven", Artist.loadTexture("images/LAVA.png", "PNG"));
+		model.getPlayer().getText().setCleanText(false);
 		Thread ViewThread = new Thread(view);
 		view.releaseContext();
 		ViewThread.start();

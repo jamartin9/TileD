@@ -1,7 +1,7 @@
 package utils;
-
 import java.io.IOException;
 import java.io.InputStream;
+import main.TextBoxArea;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -100,6 +100,7 @@ public class Artist {
 		
 		
 	}
+	
 
 	public static Texture loadTexture(String path, String fileType){
 		Texture tex =null;

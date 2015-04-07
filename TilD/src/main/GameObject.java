@@ -1,5 +1,8 @@
 package main;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
+
 import utils.Artist;
 import utils.Physics;
 
@@ -15,6 +18,9 @@ public abstract class GameObject {
 	protected boolean viewTopDown;
 	protected boolean viewIso;
 	private int health;
+	private TextBoxArea box = null;
+
+	
 
 	public GameObject(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
@@ -186,6 +192,9 @@ public abstract class GameObject {
 
 	public void Draw() {
 		Artist.drawQuadTex(anim.getTex(), getX(), getY(), width, height);
+		if(box != null){
+			box.draw();
+		}
 
 	}
 
@@ -198,5 +207,13 @@ public abstract class GameObject {
 	public void startAnim() {
 		anim.update();
 	};
+	
+	public TextBoxArea getText(){
+		return box;
+	}
+	public void createTextBox(int ptSize, boolean fullScreen,Color color,String Text,Texture texture){
+		box= new TextBoxArea(ptSize, fullScreen, x, y, color, Text, texture);
+	}
+
 
 }
