@@ -21,6 +21,7 @@ public class TextBoxArea {
 	private boolean showText = true;
 	// set if the text with be removed after one showing
 	private boolean removeText = true;
+	float textTime = 0;
 
 	public TextBoxArea(int ptSize, boolean fullScreen, float x, float y, Color color, String Text, Texture texture) {
 		font = new TrueTypeFont(new Font("Times New Roman", Font.BOLD, ptSize), false);
@@ -72,9 +73,13 @@ public class TextBoxArea {
 	public void setCleanText(boolean clean) {
 		removeText = clean;
 	}
+	public void setTime(float time){
+		this.textTime=time;
+	}
 
 	public void draw() {
-		if (showText) {
+		textTime-=.33f;
+		if (showText && text !=null && textTime >= 0) {
 			int beginIndex = 0;
 			int endIndex = text.length();
 			float tempY =y;

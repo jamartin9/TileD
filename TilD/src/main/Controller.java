@@ -10,6 +10,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
 import utils.Clock;
+import utils.Physics;
 
 
 public class Controller {
@@ -25,7 +26,7 @@ public class Controller {
 		model.addEnemy(createEnemyGoblin());
 		model.addPlayer(createPlayer());
 		model.getPlayer().createTextBox(12, false, Color.white, "Sven", Artist.loadTexture("images/LAVA.png", "PNG"));
-		model.getPlayer().getText().setCleanText(false);
+		//model.getPlayer().getText().setCleanText(false);
 		Thread ViewThread = new Thread(view);
 		view.releaseContext();
 		ViewThread.start();
@@ -41,44 +42,46 @@ public class Controller {
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
 
-		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 4);
+		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 2);
 	}
 
 	private Player createPlayer() {
 		/* Create animation for player */
 		ArrayList<Texture> playerTexs = new ArrayList<Texture>();
-		float[] time = new float[7];
+		float[] time = new float[10];
 
 		// moving down/up
-		playerTexs.add(Artist.loadTexture("images/character_front.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_attack_right.png", "PNG"));
 		// set time
-		time[0] = 0;
+		time[0] = 0.8f;
 		// moving right
-		playerTexs
-				.add(Artist.loadTexture("images/char_right_stand.png", "PNG"));
-		playerTexs.add(Artist.loadTexture("images/char_right_step_right.png",
-				"PNG"));
-		playerTexs.add(Artist.loadTexture(
-				"images/character_left_step_right.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/char_right_stand.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/char_right_step_right.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_left_step_right.png", "PNG"));
 		time[1] = 0.8f;
 		time[2] = 0.8f;
 		time[3] = 0.8f;
 		// moving left
 		playerTexs.add(Artist.loadTexture("images/char_left_stand.png", "PNG"));
-		playerTexs.add(Artist.loadTexture("images/char_right_step_left.png",
-				"PNG"));
-		playerTexs.add(Artist.loadTexture(
-				"images/character_left_step_left.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/char_right_step_left.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_left_step_left.png", "PNG"));
 		time[4] = 0.8f;
 		time[5] = 0.8f;
 		time[6] = 0.8f;
+		time[7] = 0.8f;
+		time[8] = 0.8f;
+		time[9] = 0.8f;
+		playerTexs.add(Artist.loadTexture("images/character_attack_left.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_back.png", "PNG"));
+		playerTexs.add(Artist.loadTexture("images/character_front.png", "PNG"));
+
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
 		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 25, model.getGrid());
 
 	}
-	
+
 	public static void draw() {
 		updateChanges();
 		// update the clock
@@ -101,11 +104,32 @@ public class Controller {
 				case 2:
 					model.setGrid(mapper.getMAP2());
 					Controller.resize();
+					model.getPlayer().setX(100);
+					model.getPlayer().setY(100);
+					model.getCurrentEnemy().setX(Artist.getWidth()-150);
+					model.getCurrentEnemy().setY(100f);
 					break;
 				case 3:
 					model.setGrid(mapper.getMAP3());
-					model.getTile(8,7);
 					Controller.resize();
+					model.setTopDown(false);
+					model.getPlayer().setHeight(model.getPlayer().getHeight()*2);
+					model.getPlayer().setWidth(model.getPlayer().getWidth()*2);
+					model.getPlayer().setX(Artist.getWidth()-100);
+					model.getPlayer().setY(Artist.getHeight()/2);
+					/* Create animation for enemy */
+					ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
+					float[] enemyTime = new float[1];
+					// moving
+					enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
+					// set time
+					enemyTime[0] = 0;
+					Animation enemyAnim = new Animation(enemyTexs, enemyTime);
+					model.setCurrent(new Enemy(enemyAnim, model.getTile(5, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2));
+					model.getPlayer().getText().setCleanText(false);
+					model.getPlayer().getText().setString("DEMO OVER");;
+					model.getPlayer().getText().setTime(100000f);
+
 					break;
 				case 4:
 					model.setGrid(mapper.getMAP4());
@@ -138,11 +162,11 @@ public class Controller {
 	}
 		
 	public static void sideScrollUpdate(){
+		/*If we hit*/
 		if(model.checkCollisionSideScroll()){
-		/* kill enemy for now */
-		model.getCurrentEnemy().setHealth(0);
-
-		// if player died
+			//model.getPlayer().setHealth(model.getPlayer().getHealth()-5);
+			model.getCurrentEnemy().setHealth(model.getCurrentEnemy().getHealth()-2);
+		}
 		if (model.getPlayer().getHealth() <= 0) {
 			System.out.println("GAME OVER");
 			System.exit(0);
@@ -162,7 +186,6 @@ public class Controller {
 			// resize for old grid
 			resize();
 			}
-		}
 	}
 	
 	public static void resize() {	
@@ -211,8 +234,23 @@ public class Controller {
 		
 		Display.setLocation(0, 0);
 		try {
-			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));
-		} catch (LWJGLException e) {
+			/*
+	        DisplayMode displayMode = null;
+	        DisplayMode[] modes = Display.getAvailableDisplayModes();
+	        //System.out.println("The desired is "+newWidth+" "+newHeight);
+	         for (int i = 0; i < modes.length; i++)
+	         {
+	             if (modes[i].getWidth() >= Display.getDesktopDisplayMode().getWidth()
+	             && modes[i].getHeight() >= Display.getDesktopDisplayMode().getHeight() &&
+	              modes[i].isFullscreenCapable())
+	               {
+	                    displayMode = modes[i];
+	                   // System.out.println(modes[i].getHeight()+" "+modes[i].getWidth());
+	               }
+	         }*/
+			//Display.setFullscreen(true);
+			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));		
+			} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -280,7 +318,10 @@ public class Controller {
 		// set the display back location and size
 		Display.setLocation(0, 0);
 		try {
-			Display.setDisplayMode(new DisplayMode(newWidth,newHeight));
+			DisplayMode newDisplay = new DisplayMode(newWidth,newHeight);
+			Display.setFullscreen(true);
+			System.out.println(newDisplay.isFullscreenCapable());
+			Display.setDisplayMode(newDisplay);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -298,6 +339,25 @@ public class Controller {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unused")
 		Controller boot = new Controller();
+	}
+
+	public static boolean getColl() {
+		return Physics.collidesObject(model.getPlayer(), model.getCurrentEnemy());		
+	}
+
+	public static void doDamage(int i, String className) {
+		switch(className){
+		case "class main.Enemy":
+			model.getPlayer().setHealth(model.getPlayer().getHealth()-i);
+			break;
+		case "class main.Player":
+			model.getCurrentEnemy().setHealth(model.getCurrentEnemy().getHealth()-i);
+			model.getPlayer().getText().setString(Integer.toString(i));
+			model.getPlayer().getText().setCleanText(false);
+			break;
+		default:
+			System.out.println("Do damage failed on switch");
+		}
 	}
 	
 

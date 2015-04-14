@@ -1,6 +1,7 @@
 package main;
 
 import org.lwjgl.input.Keyboard;
+
 import utils.Clock;
 
 public class Player extends GameObject {
@@ -9,6 +10,7 @@ public class Player extends GameObject {
 	private boolean right =false;
 	private boolean up =false;
 	private boolean down =false;
+	private boolean attack =false;
 	
 	
 	public Player(Animation anim, Tile startTile, int width, int height,
@@ -20,6 +22,9 @@ public class Player extends GameObject {
 	
 	public void update() {
 		/*Get keys pressed*/
+		if(Keyboard.isKeyDown(Keyboard.KEY_F)){
+			attack =true;
+		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			up = true;
 		}
@@ -27,15 +32,15 @@ public class Player extends GameObject {
 			down = true;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			right =true;
+			right =true; 
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			left = true;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			if (!viewTopDown) {
-				if (anim.getRangeStart() != 0 && anim.getRangeEnd() != 0) {
-					anim.setRange(0, 0);
+				if (anim.getRangeStart() != 8 && anim.getRangeEnd() != 8) {
+					anim.setRange(8, 8);
 				}
 				if (jumpUp()&&jumpTime <=0) {
 					setY(getY()-height*2);
@@ -76,7 +81,7 @@ public class Player extends GameObject {
 			}
 		}
 		else if(down&&left){
-			if (anim.getRangeStart() != 4 && anim.getRangeEnd() != 6) {
+			if (anim.getRangeStart() != 4 || anim.getRangeEnd() != 6) {
 				anim.setRange(4, 6);
 			}
 			if (moveDownLeft()) {
@@ -86,7 +91,7 @@ public class Player extends GameObject {
 			}
 		}
 		else if(down&&right){
-			if (anim.getRangeStart() != 1 && anim.getRangeEnd() != 3) {
+			if (anim.getRangeStart() != 1 || anim.getRangeEnd() != 3) {
 				anim.setRange(1, 3);
 			}
 			if (moveDownRight()) {
@@ -95,8 +100,8 @@ public class Player extends GameObject {
 			}
 		}
 		else if(up){
-			if (anim.getRangeStart() != 0 && anim.getRangeEnd() != 0) {
-				anim.setRange(0, 0);
+			if (anim.getRangeStart() != 8 && anim.getRangeEnd() != 8) {
+				anim.setRange(8, 8);
 			}
 			if (moveUp()) {
 				setY(getY() - Clock.delta()*speed);
@@ -105,8 +110,8 @@ public class Player extends GameObject {
 			
 		}
 		else if(down){
-			if (anim.getRangeStart() != 0 && anim.getRangeEnd() != 0) {
-				anim.setRange(0, 0);
+			if (anim.getRangeStart() != 9 && anim.getRangeEnd() != 9) {
+				anim.setRange(9, 9);
 			}
 			if (moveDown()) {
 				setY(getY() + Clock.delta()*speed);
@@ -115,7 +120,7 @@ public class Player extends GameObject {
 			
 		}
 		else if(left){
-			if (anim.getRangeStart() != 4 && anim.getRangeEnd() != 6) {
+			if (anim.getRangeStart() != 4 || anim.getRangeEnd() != 6) {
 				anim.setRange(4, 6);
 			}
 			if (moveLeft()) {
@@ -125,7 +130,7 @@ public class Player extends GameObject {
 			
 		}
 		else if(right){
-			if (anim.getRangeStart() != 1 && anim.getRangeEnd() != 3) {
+			if (anim.getRangeStart() != 1 || anim.getRangeEnd() != 3) {
 				anim.setRange(1, 3);
 			}
 			if (moveRight()) {
@@ -134,10 +139,41 @@ public class Player extends GameObject {
 			}
 			
 		}
+		if(attack&& !viewTopDown){
+			float x = getX();
+			float y = getY();
+			int width = getWidth();
+			int height = getHeight();
+			if(left){
+				anim.setRange(7, 7);
+			}else if(right){
+				anim.setRange(0, 0);
+			}
+			// set player hit box
+			// set anim
+			setX(x+width);
+			setY(y+10);
+			setWidth(width/2);
+			setHeight(height);
+			if(Controller.getColl()&&getText().textTime<=0){
+				Controller.doDamage(69, this.getClass().toString());
+				getText().setTime(60f);
+			}
+			setX(x);
+			setY(y);
+			setWidth(height);
+			setHeight(height);
+			
+		}
+		if(getText().textTime<=0){
+			getText().setCleanText(true);
+		}
+
 		right =false;
 		left= false;
 		up=false;
 		down =false;
+		attack =false;
 		// update text box
 		getText().setX(getX());
 		getText().setY(getY());

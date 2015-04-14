@@ -55,6 +55,7 @@ public class View implements Runnable{
 			// redraw map
 			Controller.draw();
 
+			
 			// update the display
 			Display.update();
 

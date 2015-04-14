@@ -1,7 +1,6 @@
 package utils;
 import java.io.IOException;
 import java.io.InputStream;
-import main.TextBoxArea;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -23,10 +22,12 @@ public class Artist {
 	private static int arHeight = 15;
 
 	public static void BeginSession() {
+		System.setProperty(" org.lwjgl.opengl.Window.undecorated", "true");
 		Display.setTitle("TilD");
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create();
+			
 			Display.setFullscreen(true);
 			// Make keyboard
 			Keyboard.create();

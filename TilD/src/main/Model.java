@@ -207,4 +207,8 @@ public class Model {
 				e.setIso(b);
 			}
 	}
+	public void setCurrent(Enemy enemy){
+		activeObjects.add(enemy);
+		enemyIndex=activeObjects.size()-1;
+	}
 }
