@@ -115,7 +115,7 @@ public class Controller {
 					model.setTopDown(false);
 					model.getPlayer().setHeight(model.getPlayer().getHeight()*2);
 					model.getPlayer().setWidth(model.getPlayer().getWidth()*2);
-					model.getPlayer().setX(Artist.getWidth()-100);
+					model.getPlayer().setX(Artist.getWidth()-Artist.getWidth()/2);
 					model.getPlayer().setY(Artist.getHeight()/2);
 					/* Create animation for enemy */
 					ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
@@ -126,9 +126,6 @@ public class Controller {
 					enemyTime[0] = 0;
 					Animation enemyAnim = new Animation(enemyTexs, enemyTime);
 					model.setCurrent(new Enemy(enemyAnim, model.getTile(5, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2));
-					model.getPlayer().getText().setCleanText(false);
-					model.getPlayer().getText().setString("DEMO OVER");;
-					model.getPlayer().getText().setTime(100000f);
 
 					break;
 				case 4:

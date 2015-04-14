@@ -35,7 +35,6 @@ public class Model {
 	}
 
 	public void update() {
-
 		// if we are in topDown view
 		if (viewTopDown) {
 			Controller.topDownUpdate();
@@ -91,6 +90,7 @@ public class Model {
 	
 	public void setTopDown(boolean topdown){
 		viewTopDown=topdown;
+		getPlayer().setView(topdown);
 	}
 	
 	public void resetPlayerCords(){

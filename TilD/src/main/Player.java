@@ -2,6 +2,7 @@ package main;
 
 import org.lwjgl.input.Keyboard;
 
+import utils.Artist;
 import utils.Clock;
 
 public class Player extends GameObject {
@@ -43,7 +44,7 @@ public class Player extends GameObject {
 					anim.setRange(8, 8);
 				}
 				if (jumpUp()&&jumpTime <=0) {
-					setY(getY()-height*2);
+					setY(getY()-Artist.getScaleY()*3);
 					jumpTime = 5f;
 				}else{
 					jumpTime -= Clock.getDeltaTime();
@@ -146,12 +147,14 @@ public class Player extends GameObject {
 			int height = getHeight();
 			if(left){
 				anim.setRange(7, 7);
+				setX(x-width/2);
 			}else if(right){
 				anim.setRange(0, 0);
+				setX(x+width);
+
 			}
 			// set player hit box
 			// set anim
-			setX(x+width);
 			setY(y+10);
 			setWidth(width/2);
 			setHeight(height);

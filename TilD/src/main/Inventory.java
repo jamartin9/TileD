@@ -1,68 +1,62 @@
 package main;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 
-public class Inventory 
-{
+public class Inventory {
 	private static final int MAX_INVENTORY_SIZE = 100;
-	
-	private Array items[];
+	private ArrayList<Item> items;
+	private boolean show = false;
 
-    private Item Item[] = new Item[MAX_INVENTORY_SIZE];
+	public Inventory() {
+		items = new ArrayList<Item>();
+		items.contains(MAX_INVENTORY_SIZE);
+	}
 
-    public Inventory() {
-    }
+	public void addItem(Item item) {
+		if (items.size() < MAX_INVENTORY_SIZE) {
+			items.add(item);
+		} else {
+			System.out.println("Inventory full");
+		}
+	}
 
-    public void addItem(Array item) {
-          int slot = findFreeSlot();
-          if (slot >= 0) {
-              items[slot] = item;
-          }
-    }
+	public void removeItem(String item) {
+		// crude removal
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).itemName.equals(item)) {
+				items.remove(i);
+				break;
+			}
+		}
+	}
 
-    public Array removeItem(Item item) {
-          for (int i=0;i<items.length;i++) {
-               if (items[i].equals(item)) {
-                     Array temp = items[i];
-                     items[i] = null;
-                     return temp;
-               }
-           }
+	public void setVisible(boolean b) {
+		show = b;
+	}
 
-           return null;
-    }
+	public Item getItem(String item) {
+		// crude search
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).itemName.equals(item)) {
+				return items.get(i);
+			}
+		}
+		return null;
+	}
 
-    public Array getItemAt(int index) {
-           return items[index];
-    }
+	public int getInventorySize() {
+		return MAX_INVENTORY_SIZE;
+	}
 
-    public int getInventorySize() {
-            return MAX_INVENTORY_SIZE;
-    }
+	public void showInventory() {
+		if (show) {
+			// print items in array
+			// TODO: make and draw menu
+			for (int i = 0; i < items.size(); i++) {
+				items.get(i).draw();
 
-    private int findFreeSlot() {
-         for (int i=0;i<items.length;i++) {
-              if (items[i] == null) {
-                   return i;
-              }
-         }
-
-         return -1;
-    }
-    
-    public void showInventory()
-    {
-        //print items in array
-        for(int i=0;i<Item.length;i++)
-        {
-            //null is used for an empty spot
-            if(Item[i]==null)
-            {
-                //+1 makes sure player choices matches up with menu player sees since array starts at 0
-                System.out.println(i+1 + ": Empty Space");
-            }
-           
-        }
-    }
+			}
+		}
+	}
 
 }

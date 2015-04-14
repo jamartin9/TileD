@@ -23,7 +23,7 @@ public class View implements Runnable{
 		//sm.setVolume(5);
 		sm.enableLoop();
 		sm.addSound("audio/music.wav", "music");
-		sm.playSound("music");
+		//sm.playSound("music");
 	}
 	
 	public void dispose(){
