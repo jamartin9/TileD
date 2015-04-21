@@ -97,6 +97,8 @@ public class Controller {
 			switch (changeMaps) {
 				case 1:
 					// update each maps conditions
+					model.getPlayer().setX(925);
+					model.getPlayer().setY(100);
 					model.makeEnemiesInactive();
 					model.setGrid(mapper.getMAP5());
 					Controller.resize();
@@ -135,6 +137,12 @@ public class Controller {
 				case 5:
 					model.setGrid(mapper.getMAP7());
 					Controller.resizeIso();
+					break;
+				case 6:
+					model.getPlayer().setX(100);
+					model.getPlayer().setY(900);
+					model.setGrid(mapper.getMAP8());
+					Controller.resize();
 					break;
 				default:
 					model.setGrid(mapper.getMAP1());

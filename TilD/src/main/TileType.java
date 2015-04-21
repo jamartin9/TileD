@@ -15,7 +15,10 @@ public enum TileType {
 	cloud("AngryCloud",true,false,0),
 	StoneBack("Stoneback",true,false,0),
 	ChangeMapDungeon1("Stoneback",true,true,3),
-	lava("LAVA",true,false,0);
+	lava("LAVA",false,false,0),
+	Mountain("Mountain",false,false,0),
+	Dungeon("Dungeondoor",true,true,1),
+	GrassMove1("Grass",true,true,6);
 	
 	String textureName;
 	public boolean moveable;
