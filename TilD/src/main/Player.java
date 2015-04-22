@@ -12,11 +12,12 @@ public class Player extends GameObject {
 	private boolean up =false;
 	private boolean down =false;
 	private boolean attack =false;
-	
+	private Inventory inventory;
 	
 	public Player(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid) {
 		super(anim, startTile, width, height, health, speed, grid);
+		inventory = new Inventory();
 		anim.setRange(0, 0);
 
 	}
@@ -57,7 +58,13 @@ public class Player extends GameObject {
 		move();
 		startAnim();
 	}
-
+	@Override
+	public void Draw(){
+		super.Draw();
+		if(inventory.isVisible()){
+			inventory.showInventory(Artist.getScaleX(),Artist.getHeight()-Artist.getScaleY(),Artist.getScaleX()/2,Artist.getScaleY()/2);
+		}
+	}
 
 	private void move() {
 		if(up && right){
@@ -159,7 +166,7 @@ public class Player extends GameObject {
 			setWidth(width/2);
 			setHeight(height);
 			if(Controller.getColl()&&getText().textTime<=0){
-				Controller.doDamage(69, this.getClass().toString());
+				Controller.doDamage(Clock.getRandom(100), this.getClass().toString());
 				getText().setTime(60f);
 			}
 			setX(x);
@@ -180,6 +187,21 @@ public class Player extends GameObject {
 		// update text box
 		getText().setX(getX());
 		getText().setY(getY());
+	}
+	public void addItem(Item item){
+		inventory.addItem(item);
+		inventory.setVisible(true);
+	}
+
+	public boolean hasItem() {
+		if(inventory.isVisible()){
+			return true;
+		}
+		return false;
+	}
+
+	public void removeItem() {
+		inventory.remove();
 	}
 
 }

@@ -20,43 +20,50 @@ public class Inventory {
 		}
 	}
 
-	public void removeItem(String item) {
-		// crude removal
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).itemName.equals(item)) {
-				items.remove(i);
-				break;
-			}
-		}
-	}
-
 	public void setVisible(boolean b) {
 		show = b;
 	}
-
-	public Item getItem(String item) {
-		// crude search
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).itemName.equals(item)) {
-				return items.get(i);
-			}
-		}
-		return null;
+	public boolean isVisible(){
+		return show;
 	}
 
 	public int getInventorySize() {
 		return MAX_INVENTORY_SIZE;
 	}
+	
 
 	public void showInventory() {
 		if (show) {
 			// print items in array
 			// TODO: make and draw menu
 			for (int i = 0; i < items.size(); i++) {
-				items.get(i).draw();
+				items.get(i).update();
 
 			}
 		}
+	}
+
+	public void showInventory(int x, int y, int width, int height) {
+		if (show) {
+			// print items in array
+			// TODO: make and draw menu
+			for (Item e : items) {
+				e.setX(x);
+				e.setY(y);
+				e.setWidth(width);
+				e.setHeight(height);
+				e.update();
+
+			}
+		}		
+	}
+
+	public void remove() {
+		// remove everything and turn off for now
+		for (int i =0; i < items.size();i++){
+			items.remove(i);
+		}
+		setVisible(false);
 	}
 
 }

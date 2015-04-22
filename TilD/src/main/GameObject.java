@@ -174,7 +174,7 @@ public abstract class GameObject {
 		if (getY() + height + 5 > Artist.getHeight()) {
 			return false;
 		}
-		if (Physics.collidesTile(getX()+width/2, getY() + 4, getWidth()-width/2, getHeight()+Artist.getScaleY(), getGrid(),this.getClass().toString().equals("class main.Player"))) {
+		if (Physics.collidesTile(getX()+width/2, getY() + height, getWidth()-width/2, 4, getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;

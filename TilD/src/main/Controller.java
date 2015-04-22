@@ -41,8 +41,15 @@ public class Controller {
 		// set time
 		enemyTime[0] = 0;
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
-
-		return new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 2);
+		Enemy enemy = new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 2);
+		ArrayList<Texture> itemTexs = new ArrayList<Texture>();
+		float[] itemTime = new float [1];
+		itemTexs.add(Artist.loadTexture("images/Dungeon_Key.png", "PNG"));
+		itemTime[0]=0;
+		Animation anim = new Animation(itemTexs,itemTime);
+		Item item = new Item(anim,model.getTile(8, 3),Artist.getScaleX(),Artist.getScaleY(),100,7,model.getGrid());
+		enemy.addItem(item);
+		return enemy;
 	}
 
 	private Player createPlayer() {
@@ -96,10 +103,16 @@ public class Controller {
 			// switch maps and resize
 			switch (changeMaps) {
 				case 1:
+					if(model.getPlayer().hasItem()){
+						model.getPlayer().removeItem();
+					}else{
+						return;
+					}
 					// update each maps conditions
 					model.getPlayer().setX(925);
 					model.getPlayer().setY(100);
 					model.makeEnemiesInactive();
+					// remove key
 					model.setGrid(mapper.getMAP5());
 					Controller.resize();
 					break;
@@ -161,8 +174,15 @@ public class Controller {
 	public static void topDownUpdate(){
 		// if the player runs into another object
 		if(model.checkCollisionTopDown()){
+			int ind = model.getEnemyIndex();
+			// check if the object is a item
+			if(model.getActive(ind).getClass().toString().equals("class main.Item")){
+				model.getPlayer().addItem(model.getItem());
+				model.removeItem();
+				model.setTopDown(true);
+			}else{
 			// change map to a combat map
-			changeMap(model.getCurrentEnemy().getcmbMap());
+			changeMap(model.getCurrentEnemy().getcmbMap());}
 		}
 	}
 		
@@ -179,6 +199,10 @@ public class Controller {
 
 		// if enemy died
 		else if (model.getCurrentEnemy().getHealth() <= 0) {
+			Item item = null;
+			if(model.getCurrentEnemy().hasItem()){
+				item = model.getCurrentEnemy().getItem();
+			}
 			model.removeCurrentEnemy();
 			// put view back on player
 			model.setTopDown(true);
@@ -190,6 +214,9 @@ public class Controller {
 			model.resetTopDownGrid();
 			// resize for old grid
 			resize();
+			if(item != null){
+				model.addItem(item);
+			}
 			}
 	}
 	

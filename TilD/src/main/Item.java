@@ -1,46 +1,16 @@
 package main;
 
-import org.newdawn.slick.opengl.Texture;
+public class Item extends GameObject{
 
-public enum Item 
-{
-	
-	
-	Dungeon_Key("Dungeon_Key",true,false);
-    
-    public String itemName;
-	public boolean useable;
-	public boolean wearable;
-	// add item images
-	public Texture item;
-	private float x;
-	private float y;
-	private int height;
-	private int width;
-	
-	
-	Item(String itemName, boolean useable, boolean wearable){
-		this.itemName = itemName;
-		this.useable = useable;
-		this.wearable = wearable;
-
+	public Item(Animation anim, Tile startTile, int width, int height,
+			int health, int speed, TileGrid grid) {
+		super(anim, startTile, width, height, health, speed, grid);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setX(float x){
-		this.x=x;
+	@Override
+	public void update() {
+		Draw();
 	}
-	public void setY(float y){
-		this.y=y;
-	}
-	public void setWidth(int width){
-		this.width =  width;
-	}
-	public void setHeight(int height){
-		this.height = height;
-	}
-	public void draw() {
-		// TODO: implement drawing of item
-		
-	}
-    
+	
 }

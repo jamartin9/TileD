@@ -72,7 +72,9 @@ public class Model {
 				// update views
 				viewTopDown = false;
 				getPlayer().setView(viewTopDown);
-				getCurrentEnemy().setView(viewTopDown);
+				if(activeObjects.get(i).getClass().toString().equals("class main.Enemy")){
+					getCurrentEnemy().setView(viewTopDown);
+				}else{}
 				return true;
 
 			}
@@ -80,6 +82,12 @@ public class Model {
 		return false;
 	}
 
+	public int getEnemyIndex(){
+		return enemyIndex;
+	}
+	public GameObject getActive(int i){
+		return activeObjects.get(i);
+	}
 	public boolean getTopDown(){
 		return viewTopDown;
 	} 
@@ -211,4 +219,21 @@ public class Model {
 		activeObjects.add(enemy);
 		enemyIndex=activeObjects.size()-1;
 	}
+	private int itemIndex;
+	public void addItem(Item item) {
+		activeObjects.add(item);
+		itemIndex=activeObjects.size()-1;
+		
+		
+	}
+
+	public Item getItem() {
+		// TODO Auto-generated method stub
+		return (Item) activeObjects.get(itemIndex);
+	}
+
+	public void removeItem() {
+		activeObjects.remove(itemIndex);
+	}
+
 }

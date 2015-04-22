@@ -8,6 +8,8 @@ public class Enemy extends GameObject {
 	private int dir;
 	private boolean firstRun;
 	private int cmbMap;
+	private boolean hasItem;
+	private Item item;
 	
 	public Enemy(Animation anim, Tile startTile, int width, int height,
 			int health, int speed, TileGrid grid, int cmbMap) {
@@ -15,6 +17,7 @@ public class Enemy extends GameObject {
 		firstRun = true;
 		this.cmbMap = cmbMap;
 		anim.setRange(0, 0);
+		hasItem =false;
 	}
 
 	public void update() {
@@ -86,6 +89,19 @@ public class Enemy extends GameObject {
 			}
 		}
 
+	}
+	public void addItem(Item item){
+		this.item=item;
+		hasItem=true;
+	}
+
+	public boolean hasItem() {
+		return hasItem;
+	}
+
+	public Item getItem() {
+		// TODO Auto-generated method stub
+		return item;
 	}
 
 }
