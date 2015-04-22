@@ -5,7 +5,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import utils.Artist;
-import utils.Clock;
 import utils.SoundManager;
 
 public class View implements Runnable{
@@ -24,7 +23,7 @@ public class View implements Runnable{
 		//sm.setVolume(5);
 		sm.enableLoop();
 		sm.addSound("audio/music.wav", "music");
-		//sm.playSound("music");
+		sm.playSound("music");
 	}
 	
 	public void dispose(){

@@ -27,7 +27,7 @@ public class Player extends GameObject {
 		if(Keyboard.isKeyDown(Keyboard.KEY_F)){
 			attack =true;
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)&&viewTopDown) {
 			up = true;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
@@ -46,7 +46,7 @@ public class Player extends GameObject {
 				}
 				if (jumpUp()&&jumpTime <=0) {
 					setY(getY()-Artist.getScaleY()*3);
-					jumpTime = 5f;
+					jumpTime = 8f;
 				}else{
 					jumpTime -= Clock.getDeltaTime();
 				}
@@ -62,7 +62,7 @@ public class Player extends GameObject {
 	public void Draw(){
 		super.Draw();
 		if(inventory.isVisible()){
-			inventory.showInventory(Artist.getScaleX(),Artist.getHeight()-Artist.getScaleY(),Artist.getScaleX()/2,Artist.getScaleY()/2);
+			inventory.showInventory(Artist.getScaleX(),Artist.getHeight()-Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY());
 		}
 	}
 

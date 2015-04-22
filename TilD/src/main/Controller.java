@@ -85,7 +85,7 @@ public class Controller {
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
-		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 25, model.getGrid());
+		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 12, model.getGrid());
 
 	}
 
@@ -120,7 +120,7 @@ public class Controller {
 					model.setGrid(mapper.getMAP2());
 					Controller.resize();
 					model.getPlayer().setX(100);
-					model.getPlayer().setY(100);
+					model.getPlayer().setY(150);
 					model.getCurrentEnemy().setX(Artist.getWidth()-150);
 					model.getCurrentEnemy().setY(100f);
 					break;
@@ -153,7 +153,7 @@ public class Controller {
 					break;
 				case 6:
 					model.getPlayer().setX(100);
-					model.getPlayer().setY(900);
+					model.getPlayer().setY(Artist.getHeight()/2);
 					model.setGrid(mapper.getMAP8());
 					Controller.resize();
 					break;
