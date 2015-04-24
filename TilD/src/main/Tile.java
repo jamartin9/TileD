@@ -107,4 +107,9 @@ public class Tile {
 		this.y = translateY;
 	}
 
+	public void drawLast() {
+		Artist.drawQuadTexLast(x, y, width, height);
+		
+	}
+
 }

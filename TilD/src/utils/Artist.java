@@ -182,4 +182,28 @@ public class Artist {
 		Artist.arHeight = arHeight;
 	}
 
+	public static void drawQuadTexLast(float x, float y, float width,
+			float height) {
+		// translate
+				GL11.glTranslatef(x, y, 0);
+				// draw
+				GL11.glBegin(GL11.GL_QUADS);
+				// top left
+				GL11.glTexCoord2f(0, 0);
+				GL11.glVertex2f(0, 0); 
+				// top right
+				GL11.glTexCoord2f(1, 0);
+				GL11.glVertex2f(width, 0); 
+				// bottom right
+				GL11.glTexCoord2f(1, 1);
+				GL11.glVertex2f(width, height); 
+				// bottom left
+				GL11.glTexCoord2f(0, 1);
+				GL11.glVertex2f(0, height); 	
+				
+				GL11.glEnd();
+				// prevent screen tearing
+				GL11.glLoadIdentity();		
+	}
+
 }

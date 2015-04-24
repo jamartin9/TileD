@@ -90,9 +90,21 @@ public class TileGrid {
 	}
 	
 	public void draw(){
+		TileType type = null;
 		for(int i =0; i<map.length;i++){
 			for(int j =0;j<map[i].length;j++){
-				map[i][j].draw();
+				if(type != null){
+	  				if(type == map[i][j].getType()){
+							map[i][j].drawLast();
+						}else{
+							type = map[i][j].getType();
+							map[i][j].draw();
+						}
+					}else{
+						map[i][j].draw();
+						type = map[i][j].getType();
+					}
+					
 				
 			}
 			

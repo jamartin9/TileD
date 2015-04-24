@@ -8,5 +8,6 @@
 # Create Story/Plot outline
 # Change Jump mechanics
 # Add stats that level
+# Change hard coded cordinates to relative
 # MAJOR NEED OF REFACTOR
 # Fix and remove any/all bugs

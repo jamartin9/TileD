@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 import utils.Artist;
+import utils.Clock;
 import utils.SoundManager;
 
 public class View implements Runnable{
@@ -51,15 +52,19 @@ public class View implements Runnable{
 			e.printStackTrace();
 		}
 		Controller.resize();
+		int fps =60;
 		while (!Display.isCloseRequested()) {
 			// redraw map
 			Controller.draw();
 		
 			// update the display
 			Display.update();
-
-			// sync at 60 fps
-			Display.sync(60);
+			if(Clock.getDeltaTime() >= 0.02){
+				fps++;
+			}else{
+				fps--;
+			}
+			Display.sync(fps);
 		}
 		Display.destroy();
 		Keyboard.destroy();
