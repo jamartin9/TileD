@@ -78,7 +78,7 @@ public class Player extends GameObject {
 	public void Draw(){
 		super.Draw();
 		if(inventory.isVisible()){
-			inventory.showInventory(Artist.getScaleX(),Artist.getHeight()-Artist.getScaleY(),Artist.getScaleX(),Artist.getScaleY());
+			inventory.showInventory(0,0,Artist.getScaleX(),Artist.getScaleY());
 		}
 	}
 

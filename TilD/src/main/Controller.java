@@ -183,7 +183,7 @@ public class Controller {
 		enemyTime[4] = 0.8f;
 		
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);		
-		Enemy enemy = new Enemy(enemyAnim, model.getTile(5, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2);;
+		Enemy enemy = new Enemy(enemyAnim, model.getTile(10, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2);;
 		
 		ArrayList<Texture> itemTexs = new ArrayList<Texture>();
 		float[] itemTime = new float [1];
@@ -417,7 +417,7 @@ public class Controller {
 	public static void doDamage(int i, String className) {
 		switch(className){
 		case "class main.Enemy":
-			model.getPlayer().setHealth(model.getPlayer().getHealth()-i);
+			//model.getPlayer().setHealth(model.getPlayer().getHealth()-i);
 			model.getCurrentEnemy().getText().setString(Integer.toString(i));
 			model.getCurrentEnemy().getText().setCleanText(false);
 			break;
