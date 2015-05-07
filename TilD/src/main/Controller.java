@@ -23,7 +23,7 @@ public class Controller {
 		view = new View();
 		mapper = new Mapper();
 		model = new Model();
-		model.addEnemy(createEnemyGoblin());
+		model.addEnemy(creatEnemySkele());
 		model.addPlayer(createPlayer());
 		model.getPlayer().createTextBox(12, false, Color.white, "Sven", Artist.loadTexture("images/LAVA.png", "PNG"));
 		//model.getPlayer().getText().setCleanText(false);
@@ -32,23 +32,28 @@ public class Controller {
 		ViewThread.start();
 	}
 
-	private Enemy createEnemyGoblin() {
+	private static Enemy createEnemyGoblin() {
 		/* Create animation for enemy */
 		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
-		float[] enemyTime = new float[1];
+		float[] enemyTime = new float[5];
 		// moving
 		enemyTexs.add(Artist.loadTexture("images/Goblin.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/goblin_walk_right.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/goblin_attack_right.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/goblin_walk_left.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/goblin_attack_left.png", "PNG"));
 		// set time
-		enemyTime[0] = 0;
+		enemyTime[0] = 0.8f;
+		enemyTime[1] = 0.8f;
+		enemyTime[2] = 0.8f;
+		enemyTime[3] = 0.8f;
+		enemyTime[4] = 0.8f;
+
+
 		Animation enemyAnim = new Animation(enemyTexs, enemyTime);
-		Enemy enemy = new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX(), Artist.getScaleY(), 100, 7, model.getGrid(), 2);
-		ArrayList<Texture> itemTexs = new ArrayList<Texture>();
-		float[] itemTime = new float [1];
-		itemTexs.add(Artist.loadTexture("images/Dungeon_Key.png", "PNG"));
-		itemTime[0]=0;
-		Animation anim = new Animation(itemTexs,itemTime);
-		Item item = new Item(anim,model.getTile(8, 3),Artist.getScaleX(),Artist.getScaleY(),100,7,model.getGrid());
-		enemy.addItem(item);
+		Enemy enemy = new Enemy(enemyAnim, model.getTile(8, 3), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2);
+		enemy.createTextBox(12, false, Color.white, "Goblin", Artist.loadTexture("images/LAVA.png", "PNG"));
+		enemy.setSound("goblin");
 		return enemy;
 	}
 
@@ -85,7 +90,7 @@ public class Controller {
 
 		Animation playerAnimation = new Animation(playerTexs, time);
 
-		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 12, model.getGrid());
+		return new Player(playerAnimation, model.getTile(3, 2), Artist.getScaleX(), Artist.getScaleY(), 100, 18, model.getGrid());
 
 	}
 
@@ -132,15 +137,7 @@ public class Controller {
 					model.getPlayer().setWidth(model.getPlayer().getWidth()*2);
 					model.getPlayer().setX(Artist.getWidth()-Artist.getWidth()/2);
 					model.getPlayer().setY(Artist.getHeight()/2);
-					/* Create animation for enemy */
-					ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
-					float[] enemyTime = new float[1];
-					// moving
-					enemyTexs.add(Artist.loadTexture("images/enemy.png", "PNG"));
-					// set time
-					enemyTime[0] = 0;
-					Animation enemyAnim = new Animation(enemyTexs, enemyTime);
-					model.setCurrent(new Enemy(enemyAnim, model.getTile(5, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2));
+					model.setCurrent(createEnemyGoblin());
 
 					break;
 				case 4:
@@ -167,6 +164,39 @@ public class Controller {
 		changeMaps = -1;
 	}
 	
+	private static Enemy creatEnemySkele() {
+		/* Create animation for enemy */
+		ArrayList<Texture> enemyTexs = new ArrayList<Texture>();
+		float[] enemyTime = new float[5];
+		
+		
+		enemyTexs.add(Artist.loadTexture("images/skeleton.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/skeleton_walk_right.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/skeleton_attack_right.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/skeleton_walk_left.png", "PNG"));
+		enemyTexs.add(Artist.loadTexture("images/skeleton_attack_left.png", "PNG"));
+		// set time
+		enemyTime[0] = 0.8f;
+		enemyTime[1] = 0.8f;
+		enemyTime[2] = 0.8f;
+		enemyTime[3] = 0.8f;
+		enemyTime[4] = 0.8f;
+		
+		Animation enemyAnim = new Animation(enemyTexs, enemyTime);		
+		Enemy enemy = new Enemy(enemyAnim, model.getTile(5, 5), Artist.getScaleX()*2, Artist.getScaleY()*2, 100, 7, model.getGrid(), 2);;
+		
+		ArrayList<Texture> itemTexs = new ArrayList<Texture>();
+		float[] itemTime = new float [1];
+		itemTexs.add(Artist.loadTexture("images/Dungeon_Key.png", "PNG"));
+		itemTime[0]=0;
+		Animation anim = new Animation(itemTexs,itemTime);
+		Item item = new Item(anim,model.getTile(8, 3),Artist.getScaleX(),Artist.getScaleY(),100,7,model.getGrid());
+		enemy.addItem(item);
+		enemy.createTextBox(12, false, Color.white, "Skeleton", Artist.loadTexture("images/LAVA.png", "PNG"));
+		enemy.setSound("skele");
+		return enemy;
+	}
+
 	public static void changeMap(int i) {
 		changeMaps = i;
 	}
@@ -187,14 +217,19 @@ public class Controller {
 	}
 		
 	public static void sideScrollUpdate(){
+		if(!model.getCurrentEnemy().isPlaying()){
+			model.getCurrentEnemy().playSound();
+		}
+		
 		/*If we hit*/
 		if(model.checkCollisionSideScroll()){
 			//model.getPlayer().setHealth(model.getPlayer().getHealth()-5);
-			model.getCurrentEnemy().setHealth(model.getCurrentEnemy().getHealth()-2);
+			//amodel.getCurrentEnemy().setHealth(model.getCurrentEnemy().getHealth()-2);
 		}
 		if (model.getPlayer().getHealth() <= 0) {
+			// Splash screen for death
 			System.out.println("GAME OVER");
-			System.exit(0);
+			View.setOver();
 		}
 
 		// if enemy died
@@ -203,6 +238,7 @@ public class Controller {
 			if(model.getCurrentEnemy().hasItem()){
 				item = model.getCurrentEnemy().getItem();
 			}
+			model.getCurrentEnemy().resetSound();
 			model.removeCurrentEnemy();
 			// put view back on player
 			model.setTopDown(true);
@@ -210,6 +246,7 @@ public class Controller {
 			model.getPlayer().setView(model.getTopDown());
 			model.getPlayer().setWidth(Artist.getScaleX());
 			model.getPlayer().setHeight(Artist.getScaleY());
+			model.getPlayer().setHealth(100);
 			model.resetPlayerCords();
 			model.resetTopDownGrid();
 			// resize for old grid
@@ -266,7 +303,7 @@ public class Controller {
 		
 		Display.setLocation(0, 0);
 		try {
-			/*
+			/*// full screen mode
 	        DisplayMode displayMode = null;
 	        DisplayMode[] modes = Display.getAvailableDisplayModes();
 	        //System.out.println("The desired is "+newWidth+" "+newHeight);
@@ -381,6 +418,8 @@ public class Controller {
 		switch(className){
 		case "class main.Enemy":
 			model.getPlayer().setHealth(model.getPlayer().getHealth()-i);
+			model.getCurrentEnemy().getText().setString(Integer.toString(i));
+			model.getCurrentEnemy().getText().setCleanText(false);
 			break;
 		case "class main.Player":
 			model.getCurrentEnemy().setHealth(model.getCurrentEnemy().getHealth()-i);

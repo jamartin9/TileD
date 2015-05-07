@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import utils.Artist;
+import utils.Clock;
 import utils.Physics;
 
 public abstract class GameObject {
@@ -19,6 +20,7 @@ public abstract class GameObject {
 	protected boolean viewIso;
 	private int health;
 	private TextBoxArea box = null;
+	protected Healthbar bar = null;
 
 	
 
@@ -33,6 +35,9 @@ public abstract class GameObject {
 		this.grid = grid;
 		this.health = health;
 		viewIso = false;
+		bar = new Healthbar(health, x, y-10, 8, width);
+		bar.hide();
+		
 	}
 
 	public void setIso(boolean isoView) {
@@ -181,10 +186,10 @@ public abstract class GameObject {
 	}
 
 	public boolean jumpUp() {
-		if (getY() - Artist.getScaleY()*3 - 5 < 0) {
+		if (getY() - (Clock.delta()*getSpeed()*2f) - 5 < 0) {
 			return false;
 		}
-		if (Physics.collidesTile(getX(), getY() - Artist.getScaleY()*3, getWidth(),Artist.getScaleY()*3, getGrid(),this.getClass().toString().equals("class main.Player"))) {
+		if (Physics.collidesTile(getX(), getY() - (Clock.delta()*getSpeed()*2f), getWidth(),(int) (getHeight()+(Clock.delta()*getSpeed()*2f)), getGrid(),this.getClass().toString().equals("class main.Player"))) {
 			return false;
 		}
 		return true;
@@ -195,6 +200,7 @@ public abstract class GameObject {
 		if(box != null){
 			box.draw();
 		}
+		bar.draw();
 
 	}
 
@@ -212,7 +218,7 @@ public abstract class GameObject {
 		return box;
 	}
 	public void createTextBox(int ptSize, boolean fullScreen,Color color,String Text,Texture texture){
-		box= new TextBoxArea(ptSize, fullScreen, x, y, color, Text, texture);
+		box= new TextBoxArea(ptSize, fullScreen, x+width-5, y-5, color, Text, texture);
 	}
 
 

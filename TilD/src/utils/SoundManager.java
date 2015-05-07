@@ -38,20 +38,8 @@ public class SoundManager {
 		try {
 
 			AL.create();
-			System.out.println("Default device: "
-					+ ALC10.alcGetString(null,
-							ALC10.ALC_DEFAULT_DEVICE_SPECIFIER));
-
-			if (ALC10.alcIsExtensionPresent(null, "ALC_ENUMERATION_EXT")) {
-				String[] devices = ALC10.alcGetString(null,
-						ALC10.ALC_DEVICE_SPECIFIER).split("\0");
-				System.out.println("Available devices: ");
-				for (int i = 0; i < devices.length; i++) {
-					System.out.println(i + ": " + devices[i]);
-				}
-			}
-
 			soundEnabled = true;
+			
 		} catch (Exception e) {
 			System.err
 					.println("Unable to create OpenAL.\n"
@@ -64,13 +52,6 @@ public class SoundManager {
 		buffer = BufferUtils.createIntBuffer(channels);
 		buffer.flip();
 		initialize();
-	}
-
-	protected void pause(long time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException inte) {
-		}
 	}
 
 	public void initialize() {

@@ -1,12 +1,14 @@
 package utils;
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -59,15 +61,18 @@ public class Artist {
 		GL11.glEnable(GL11.GL_DOUBLEBUFFER);
 
 	}
-
-	public static void drawQuad(float x, float y, float sizeX, float sizeY) {
+	
+	// needs color work
+	public static void drawQuad(float x, float y, float sizeX, float sizeY, Color color) {
 		// draw quad
+		GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 		GL11.glBegin(GL11.GL_QUADS); // moves clockwise
 		GL11.glVertex2f(x, y); // top left
 		GL11.glVertex2f(x + sizeX, y); // top right
 		GL11.glVertex2f(x + sizeX, y + sizeY); // bottom right
 		GL11.glVertex2f(x, y + sizeY); // bottom left
 		GL11.glEnd();
+		GL11.glColor4f(0, 0,0 ,0);
 	}
 
 	public static void drawQuadTex(
@@ -98,6 +103,7 @@ public class Artist {
 		GL11.glEnd();
 		// prevent screen tearing
 		GL11.glLoadIdentity();
+		
 		
 		
 	}
@@ -182,8 +188,7 @@ public class Artist {
 		Artist.arHeight = arHeight;
 	}
 
-	public static void drawQuadTexLast(float x, float y, float width,
-			float height) {
+	public static void drawQuadTexLast(float x, float y, float width, float height) {
 		// translate
 				GL11.glTranslatef(x, y, 0);
 				// draw

@@ -1,4 +1,5 @@
 # TileD
+# A simple game made with lwjgl/slick-util, for demonstration purposes only
 #
 # TODO:
 #
